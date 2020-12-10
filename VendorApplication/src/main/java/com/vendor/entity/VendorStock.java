@@ -21,10 +21,10 @@ import lombok.Setter;
 @Table(name="vendorstock")
 public class VendorStock {
 	@Id
+	@Column(name="vendorStockId")
+	private int vendorStockId;
 	@Column(name="productId")
 	private int productId;
-	//@Column(name="vendorId")
-	//private int vendorId;
 	@Column(name="productStock")
 	private int productStock;
 	@Column(name="expectedDate")
@@ -37,7 +37,9 @@ public class VendorStock {
 
 	@Override
 	public String toString() {
-		return "VendorStock [productId=" + productId + ", productStock=" + productStock + ", expectedDate="
-				+ expectedDate + "]";
+		return "VendorStock [vendorStockId=" + vendorStockId + ", productId=" + productId + ", productStock="
+				+ productStock + ", expectedDate=" + expectedDate + "]";
 	}
+
+	
 }

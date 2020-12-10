@@ -2,6 +2,8 @@ package com.vendor.service;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,29 +29,41 @@ public class VendorServiceImpl implements VendorService {
 	@Autowired 
 	VendorStockRepository vendorStockRepository;
 	@Override
-	public ResponseEntity<Vendor> getVendorDetails(int productId,String token) throws IOException, ParseException,ProductItemNotFoundException,VendorNotFoundException {
-		Vendor vendor=null;
-		VendorStock stock=null;
-		Optional<VendorStock> stock1=vendorStockRepository.findById(productId);
-		stock1.orElseThrow(()->new ProductItemNotFoundException("Product Id not found"));
-		stock = stock1.get();
-		if(stock.getProductStock()>0)
+	public ResponseEntity<List<Vendor>> getVendorDetails(int productId,String token) throws IOException, ParseException,ProductItemNotFoundException,VendorNotFoundException 
+	{
+		log.info("Entered service to get vendor details ");
+		List<Vendor> vendorList= new ArrayList<Vendor>();
+		List<VendorStock> stockList=vendorStockRepository.findByProductId(productId);
+		if(stockList.size()==0)
 		{
-			vendor=stock.getVendor();
-			Optional<Vendor> vendor1 = vendorRepository.findById(vendor.getVendorId());
-			vendor1.orElseThrow(()->new VendorNotFoundException("Vendor not found"));
-			vendor= vendor1.get();
-			return new ResponseEntity<Vendor>(vendor,HttpStatus.OK);
+			log.info("Product Id not found");
+			throw new ProductItemNotFoundException("Product Id not found");
 		}
-		else
-			return new ResponseEntity<Vendor>(vendor,HttpStatus.BAD_REQUEST);
+		for(VendorStock s:stockList)
+		{	
+			Vendor vendor=null;
+			if(s.getProductStock()>0)
+			{
+				vendor=s.getVendor();
+				Optional<Vendor> vendor1 = vendorRepository.findById(vendor.getVendorId());
+				vendor1.orElseThrow(()->new VendorNotFoundException("Vendor not found"));
+				vendorList.add(vendor1.get());
+			}
+		}
+			return new ResponseEntity<List<Vendor>>(vendorList,HttpStatus.OK);
 	}
 	@Override
-	public int getProductStock(int productId, String token)throws ProductItemNotFoundException {
-		
-		Optional<VendorStock> stock= vendorStockRepository.findById(productId);
-		stock.orElseThrow(()->new ProductItemNotFoundException("Product Id not found"));
-		return stock.get().getProductStock();
+	public int getProductStock(int productId, String token)throws ProductItemNotFoundException
+	{
+		log.info("Entered service to get product stock detail ");
+		VendorStock stock= vendorStockRepository.findFirstByProductIdOrderByProductStockDesc(productId);
+		if(stock==null)
+		{
+			log.info("Product Id not found");
+			throw new ProductItemNotFoundException("Product Id not found");
+		}
+		else
+			return stock.getProductStock();
 	}
 
 
