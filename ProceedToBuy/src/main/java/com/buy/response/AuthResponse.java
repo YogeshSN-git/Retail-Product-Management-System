@@ -1,4 +1,4 @@
-package com.buy.model;
+package com.buy.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

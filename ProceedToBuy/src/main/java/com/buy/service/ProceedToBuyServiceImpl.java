@@ -2,16 +2,19 @@ package com.buy.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.buy.entity.Cart;
+import com.buy.entity.Vendor;
+import com.buy.entity.Wishlist;
 import com.buy.exceptions.AlreadyInWishlistException;
+import com.buy.exceptions.UnauthorizedException;
+import com.buy.feign.AuthFeign;
 import com.buy.feign.VendorFeign;
-import com.buy.model.Cart;
-import com.buy.model.Vendor;
-import com.buy.model.Wishlist;
 import com.buy.repository.CartRepository;
 import com.buy.repository.VendorRepository;
 import com.buy.repository.WishListRepository;
@@ -21,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ProceedToBuyServiceImpl implements ProceedToBuyService {
+
+	@Autowired
+	AuthFeign authFeign;
 
 	@Autowired
 	VendorFeign vendorFeign;
@@ -36,7 +42,11 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 
 	@Override
 	public Cart addToCart(String token, int customer_Id, int product_Id, String zip_Code, String expected_Delivery_Date,
-			int quantity) throws ParseException {
+			int quantity) {
+
+		if (!authFeign.getValidity(token).isValid()) {
+			throw new UnauthorizedException();
+		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Vendor vendorDetails = vendorFeign.getVendorDetails(product_Id, token);
@@ -45,7 +55,13 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			vendorDetails = vendorRepository.findById(vendorDetails.getVendorId()).get();
 		}
 
-		Cart cart = new Cart(product_Id, zip_Code, quantity, dateFormat.parse(expected_Delivery_Date), vendorDetails);
+		Cart cart = null;
+		try {
+			cart = new Cart(product_Id, zip_Code, quantity, dateFormat.parse(expected_Delivery_Date), vendorDetails);
+		} catch (ParseException e) {
+
+			throw new DateTimeException("Invalid date format");
+		}
 
 		cartRepository.save(cart);
 
@@ -54,6 +70,10 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 
 	@Override
 	public void addToWishList(String token, int customer_Id, int product_Id) {
+		if (!authFeign.getValidity(token).isValid()) {
+			throw new UnauthorizedException();
+		}
+
 		isAlreadyInWishList(customer_Id, product_Id);
 
 		Wishlist wishlist = new Wishlist(customer_Id, product_Id, new Date());
@@ -63,6 +83,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 
 	@Override
 	public Boolean isAlreadyInWishList(int customer_Id, int product_Id) {
+
 		if (wishListRepository.existsByCustomerIdAndProductId(customer_Id, product_Id)) {
 			log.info("Already in WishList");
 			throw new AlreadyInWishlistException();

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.buy.model.AuthResponse;
+import com.buy.response.AuthResponse;
 
 @FeignClient(url = "${auth.feign.url}", name = "authapp")
 public interface AuthFeign {

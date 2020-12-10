@@ -1,4 +1,4 @@
-package com.buy.model;
+package com.buy.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
