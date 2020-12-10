@@ -1,0 +1,25 @@
+package com.buy.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class Vendor {
+
+	@Id
+	private int vendorId;
+	private String vendorName;
+	private double deliveryCharge;
+	
+//	@OneToOne(mappedBy="vendor") // no need to keep join column in instructor_detail table
+//	private Cart cart;
+}
