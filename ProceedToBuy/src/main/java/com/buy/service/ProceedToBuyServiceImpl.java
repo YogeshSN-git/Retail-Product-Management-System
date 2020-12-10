@@ -3,7 +3,9 @@ package com.buy.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import com.buy.entity.Cart;
 import com.buy.entity.Vendor;
 import com.buy.entity.Wishlist;
 import com.buy.exceptions.AlreadyInWishlistException;
+import com.buy.exceptions.OutOfStockException;
 import com.buy.exceptions.UnauthorizedException;
 import com.buy.feign.AuthFeign;
 import com.buy.feign.VendorFeign;
@@ -49,7 +52,14 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		Vendor vendorDetails = vendorFeign.getVendorDetails(product_Id, token);
+		List<Vendor> vendorsList = vendorFeign.getVendorDetails(product_Id, token);
+
+		if(vendorsList.isEmpty()) {
+			throw new OutOfStockException();
+		}
+
+		Comparator<Vendor> compare = Comparator.comparing(Vendor::getRating);
+		Vendor vendorDetails = vendorsList.stream().max(compare).get();
 
 		if (vendorRepository.existsById(vendorDetails.getVendorId())) {
 			vendorDetails = vendorRepository.findById(vendorDetails.getVendorId()).get();
@@ -57,9 +67,8 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 
 		Cart cart = null;
 		try {
-			cart = new Cart(product_Id, zip_Code, quantity, dateFormat.parse(expected_Delivery_Date), vendorDetails);
+			cart = new Cart(customer_Id,product_Id, zip_Code, quantity, dateFormat.parse(expected_Delivery_Date), vendorDetails);
 		} catch (ParseException e) {
-
 			throw new DateTimeException("Invalid date format");
 		}
 
@@ -70,14 +79,13 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 
 	@Override
 	public void addToWishList(String token, int customer_Id, int product_Id) {
+
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
 		}
 
 		isAlreadyInWishList(customer_Id, product_Id);
-
 		Wishlist wishlist = new Wishlist(customer_Id, product_Id, new Date());
-
 		wishListRepository.save(wishlist);
 	}
 

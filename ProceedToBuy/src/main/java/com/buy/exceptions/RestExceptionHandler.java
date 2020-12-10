@@ -1,6 +1,7 @@
 package com.buy.exceptions;
 
 import java.net.ConnectException;
+import java.time.DateTimeException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,4 +59,19 @@ public class RestExceptionHandler {
 		return ResponseEntity.badRequest().body(new MessageResponse("Enter valid numbers", HttpStatus.BAD_REQUEST));
 	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(DateTimeException.class)
+	public ResponseEntity<MessageResponse> handleDateTimeException(DateTimeException ex) {
+
+		log.error("Enter valid Date");
+		return ResponseEntity.badRequest().body(new MessageResponse("Enter valid Date", HttpStatus.BAD_REQUEST));
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(OutOfStockException.class)
+	public ResponseEntity<MessageResponse> handleOutOfStockException(OutOfStockException ex) {
+
+		log.error(ex.getMessage());
+		return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage(), HttpStatus.BAD_REQUEST));
+	}
 }

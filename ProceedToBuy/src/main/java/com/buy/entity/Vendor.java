@@ -3,6 +3,8 @@ package com.buy.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,6 @@ public class Vendor {
 	private String vendorName;
 	private double deliveryCharge;
 	
-//	@OneToOne(mappedBy="vendor") // no need to keep join column in instructor_detail table
-//	private Cart cart;
+	private int rating;
+	
 }

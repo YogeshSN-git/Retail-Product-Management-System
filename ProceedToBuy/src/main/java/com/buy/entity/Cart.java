@@ -26,20 +26,23 @@ import lombok.Setter;
 public class Cart {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cartId;
+
+	private int customerId;
+
 	private int productId;
 	private String zipcode;
 	private int quanitity;
 	private Date deliveryDate;
-	
-	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-	@JoinColumn(name="vendor_id")
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "vendor_id")
 	private Vendor vendor;
 
-	public Cart(int productId, String zipcode, int quanitity, Date deliveryDate, Vendor vendor) {
+	public Cart(int customerId, int productId, String zipcode, int quanitity, Date deliveryDate, Vendor vendor) {
 		super();
+		this.customerId = customerId;
 		this.productId = productId;
 		this.zipcode = zipcode;
 		this.quanitity = quanitity;
@@ -47,5 +50,4 @@ public class Cart {
 		this.vendor = vendor;
 	}
 
-	
 }

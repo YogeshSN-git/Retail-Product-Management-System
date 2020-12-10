@@ -1,5 +1,7 @@
 package com.buy.feign;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,5 +13,5 @@ import com.buy.entity.Vendor;
 public interface VendorFeign {
 
 	@GetMapping("/vendor/{productId}")
-	public Vendor getVendorDetails(@PathVariable int productId,@RequestHeader("Authorization") String token) ;
+	public List<Vendor> getVendorDetails(@PathVariable int productId,@RequestHeader("Authorization") String token) ;
 }
