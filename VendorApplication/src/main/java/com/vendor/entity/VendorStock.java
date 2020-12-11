@@ -34,12 +34,5 @@ public class VendorStock {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="vendorId")
 	private Vendor vendor;
-
-	@Override
-	public String toString() {
-		return "VendorStock [vendorStockId=" + vendorStockId + ", productId=" + productId + ", productStock="
-				+ productStock + ", expectedDate=" + expectedDate + "]";
-	}
-
 	
 }

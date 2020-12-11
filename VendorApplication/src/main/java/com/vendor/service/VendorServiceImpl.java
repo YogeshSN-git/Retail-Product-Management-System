@@ -46,7 +46,6 @@ public class VendorServiceImpl implements VendorService {
 			{
 				vendor=s.getVendor();
 				Optional<Vendor> vendor1 = vendorRepository.findById(vendor.getVendorId());
-				vendor1.orElseThrow(()->new VendorNotFoundException("Vendor not found"));
 				vendorList.add(vendor1.get());
 			}
 		}

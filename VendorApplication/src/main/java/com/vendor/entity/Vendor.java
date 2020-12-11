@@ -40,11 +40,6 @@ public class Vendor {
 	@JoinColumn(name="vendorId")
 	private List<VendorStock> vendorStockList=new ArrayList<VendorStock>();
 	
-	@Override
-	public String toString() {
-		return "Vendor [vendorId=" + vendorId + ", vendorName=" + vendorName + ", deliveryCharge=" + deliveryCharge
-				+ ", rating=" + rating + "]";
-	}
 	
 	
 }
