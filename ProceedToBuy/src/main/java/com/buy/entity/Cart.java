@@ -1,17 +1,15 @@
 package com.buy.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,28 +24,13 @@ import lombok.Setter;
 public class Cart {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cartId;
 
-	private int customerId;
-
-	private int productId;
 	private String zipcode;
-	private int quanitity;
 	private Date deliveryDate;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "vendor_id")
-	private Vendor vendor;
-
-	public Cart(int customerId, int productId, String zipcode, int quanitity, Date deliveryDate, Vendor vendor) {
-		super();
-		this.customerId = customerId;
-		this.productId = productId;
-		this.zipcode = zipcode;
-		this.quanitity = quanitity;
-		this.deliveryDate = deliveryDate;
-		this.vendor = vendor;
-	}
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id")
+	private List<ProductItem> productList;
 
 }

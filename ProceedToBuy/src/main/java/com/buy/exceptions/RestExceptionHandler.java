@@ -51,6 +51,14 @@ public class RestExceptionHandler {
 		return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage(), HttpStatus.BAD_REQUEST));
 	}
 
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(AlreadyInCartException.class)
+	public ResponseEntity<MessageResponse> handleAlreadyInWishlistException(AlreadyInCartException ex) {
+
+		log.error(ex.getMessage());
+		return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage(), HttpStatus.BAD_REQUEST));
+	}
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NumberFormatException.class)
 	public ResponseEntity<MessageResponse> handleNumberFormatException(NumberFormatException ex) {

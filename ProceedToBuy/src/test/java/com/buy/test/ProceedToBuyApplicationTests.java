@@ -1,4 +1,4 @@
-package com.buy;
+package com.buy.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

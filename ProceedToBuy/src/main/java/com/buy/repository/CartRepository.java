@@ -9,4 +9,5 @@ import com.buy.entity.Cart;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
 
+
 }
