@@ -53,7 +53,7 @@ public class RestExceptionHandler {
 
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(AlreadyInCartException.class)
-	public ResponseEntity<MessageResponse> handleAlreadyInWishlistException(AlreadyInCartException ex) {
+	public ResponseEntity<MessageResponse> handleAlreadyInCartException(AlreadyInCartException ex) {
 
 		log.error(ex.getMessage());
 		return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage(), HttpStatus.BAD_REQUEST));

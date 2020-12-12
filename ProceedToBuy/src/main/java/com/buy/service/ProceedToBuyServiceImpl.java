@@ -55,8 +55,8 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	ProductRepository productRepository;
 
 	@Override
-	public Cart addToCart(String token, int customer_Id, int product_Id, String zip_Code, String expected_Delivery_Date,
-			int quantity) throws ParseException {
+	public Cart addToCart(String token, String customer_Id, int product_Id, String zip_Code,
+			String expected_Delivery_Date, int quantity) throws ParseException {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
@@ -78,7 +78,6 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		Cart cart = null;
 
 		Optional<Cart> customerCart = cartRepository.findById(customer_Id);
-		System.out.println(customerCart);
 		ProductItem productById = productFeign.searchProductById(token, product_Id);
 
 		if (!customerCart.isEmpty()) {
@@ -122,11 +121,11 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			throw new AlreadyInCartException();
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
-	public void addToWishList(String token, int customer_Id, int product_Id) {
+	public void addToWishList(String token, String customer_Id, int product_Id) {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
@@ -168,11 +167,11 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			throw new AlreadyInWishlistException();
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
-	public Optional<Cart> customerCart(String token, int customerId) {
+	public Optional<Cart> customerCart(String token, String customerId) {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
@@ -182,7 +181,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	}
 
 	@Override
-	public Optional<Wishlist> customerWishList(String token, int customerId) {
+	public Optional<Wishlist> customerWishList(String token, String customerId) {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();

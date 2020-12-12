@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,7 +24,7 @@ public class ProceedToBuyController {
 	ProceedToBuyService proceedToBuyService;
 
 	@PostMapping("/addProductToCart/{customerid}/{productid}/{zipcode}/{deliverydate}/{quantity}")
-	public Cart addProductToCart(@RequestHeader("Authorization") final String token, @PathVariable int customerid,
+	public Cart addProductToCart(@RequestHeader("Authorization") final String token, @PathVariable String customerid,
 			@PathVariable int productid, @PathVariable String zipcode, @PathVariable String deliverydate,
 			@PathVariable int quantity) throws ParseException {
 
@@ -32,20 +33,22 @@ public class ProceedToBuyController {
 
 	@PostMapping("/addProductToWishlist/{customerid}/{productid}")
 	public ResponseEntity<MessageResponse> addProductToWishlist(@RequestHeader("Authorization") final String token,
-			@PathVariable int customerid, @PathVariable int productid) {
+			@PathVariable String customerid, @PathVariable int productid) {
 
 		proceedToBuyService.addToWishList(token, customerid, productid);
 		return ResponseEntity.ok().body(new MessageResponse("Added to WishList", HttpStatus.ACCEPTED));
 	}
 
-	@PostMapping("/viewCart/{customerid}")
-	public Optional<Cart> viewCart(@RequestHeader("Authorization") final String token, @PathVariable int customerid) {
+	@GetMapping("/viewCart/{customerid}")
+	public Optional<Cart> viewCart(@RequestHeader("Authorization") final String token,
+			@PathVariable String customerid) {
 
 		return proceedToBuyService.customerCart(token, customerid);
 	}
 
-	@PostMapping("/viewWishList/{customerid}")
-	public Optional<Wishlist> viewWishList(@RequestHeader("Authorization") final String token, @PathVariable int customerid) {
+	@GetMapping("/viewWishList/{customerid}")
+	public Optional<Wishlist> viewWishList(@RequestHeader("Authorization") final String token,
+			@PathVariable String customerid) {
 
 		return proceedToBuyService.customerWishList(token, customerid);
 	}
