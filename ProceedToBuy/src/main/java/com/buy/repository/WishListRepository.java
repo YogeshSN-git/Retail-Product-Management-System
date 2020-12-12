@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.buy.entity.Wishlist;
 
 @Repository
-public interface WishListRepository extends JpaRepository<Wishlist, Integer> {
+public interface WishListRepository extends JpaRepository<Wishlist, String > {
 
 
 }
