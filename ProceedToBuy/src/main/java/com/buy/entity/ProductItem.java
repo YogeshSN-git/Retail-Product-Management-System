@@ -36,7 +36,7 @@ public class ProductItem {
 	@Column(name = "image_name")
 	private String imageName;
 	@Column(name = "rating")
-	private int rating;
+	private double rating;
 	
 	private int quanitity;
 
