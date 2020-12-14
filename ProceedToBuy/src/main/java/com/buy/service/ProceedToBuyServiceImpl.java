@@ -114,7 +114,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	@Override
 	public Boolean isAlreadyInCart(List<ProductItem> productList, int product_Id) {
 
-		boolean incart = productList.stream().anyMatch(product -> (product.getProductId() == product_Id));
+		boolean incart = productList.stream().anyMatch(product -> product.getProductId() == product_Id);
 
 		if (incart) {
 			log.info("Already in Cart");

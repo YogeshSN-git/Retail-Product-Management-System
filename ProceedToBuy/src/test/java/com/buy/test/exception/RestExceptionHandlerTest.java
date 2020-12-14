@@ -6,9 +6,7 @@ import java.net.ConnectException;
 import java.time.DateTimeException;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.MissingRequestHeaderException;
 
