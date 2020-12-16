@@ -1,6 +1,7 @@
 package com.vendor.exception;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -21,6 +22,22 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class RestExceptionHandler {
 
+	@ExceptionHandler(SocketTimeoutException.class)
+	public ResponseEntity<MessageResponse> handleSocketTimeoutException(SocketTimeoutException ex) {
+		log.error(ex.getMessage());
+
+		MessageResponse msg = new MessageResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(FeignException.InternalServerError.class)
+	public ResponseEntity<MessageResponse> handleFeignInternalServerError(FeignException ex) {
+		log.error("Internal Server Error");
+
+		MessageResponse msg = new MessageResponse("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(UnauthorizedException.class)
 	public ResponseEntity<MessageResponse> handleUnauthorizedExceptions(UnauthorizedException ex) {
@@ -29,23 +46,21 @@ public class RestExceptionHandler {
 		return ResponseEntity.badRequest()
 				.body(new MessageResponse("Unauthorized request. Login again...", HttpStatus.UNAUTHORIZED));
 	}
-	
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ProductItemNotFoundException.class)
-	public ResponseEntity<MessageResponse> handleProductItemNotFoundException(ProductItemNotFoundException ex)
-	{
+	public ResponseEntity<MessageResponse> handleProductItemNotFoundException(ProductItemNotFoundException ex) {
 		log.error("Product Id not found");
 		return ResponseEntity.badRequest().body(new MessageResponse("Product Id not found", HttpStatus.BAD_REQUEST));
 	}
-	
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(VendorNotFoundException.class)
-	public ResponseEntity<MessageResponse> handleVendorNotFoundException(VendorNotFoundException ex)
-	{
+	public ResponseEntity<MessageResponse> handleVendorNotFoundException(VendorNotFoundException ex) {
 		log.error("Vendor not found");
 		return ResponseEntity.badRequest().body(new MessageResponse("Vendor not found", HttpStatus.BAD_REQUEST));
 	}
-	
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(FeignException.BadRequest.class)
 	public ResponseEntity<?> handleFeignBadRequestExceptions(FeignException ex) {

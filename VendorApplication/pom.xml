@@ -9,7 +9,7 @@
   <groupId>com.vendor</groupId>
   <artifactId>VendorApplication</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>VendorApplication</name>
   <properties>
 		<java.version>1.8</java.version>
@@ -90,5 +90,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>vendor</finalName>
 	</build>
 </project>
