@@ -1,6 +1,7 @@
 package com.mvc.exception;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import javax.persistence.NoResultException;
 
@@ -23,6 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler {
+
+	@ResponseStatus(HttpStatus.GATEWAY_TIMEOUT)
+	@ExceptionHandler(SocketTimeoutException.class)
+	public ModelAndView handleSocketTimeoutException(SocketTimeoutException ex) {
+		log.error(ex.getMessage());
+
+		ModelAndView model = new ModelAndView("Login");
+		model.addObject("errormsg", "Service down.Please,try again later...");
+		return model;
+	}
+
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(FeignException.InternalServerError.class)
+	public ModelAndView handleFeignInternalServerError(FeignException ex) {
+		log.error("Internal Server Error");
+
+		ModelAndView model = new ModelAndView("Login");
+		model.addObject("errormsg", "Service down.Please,try again later...");
+		return model;
+	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(FeignException.BadRequest.class)
@@ -47,8 +68,8 @@ public class RestExceptionHandler {
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(FeignException.NotFound.class)
-	public ModelAndView handleFeignNotFoundExceptions(FeignException ex) {
+	@ExceptionHandler(FeignException.UnprocessableEntity.class)
+	public ModelAndView handleNonUniqueResultException(FeignException ex) {
 
 		String[] split = ex.getMessage().split("message")[1].split(",");
 
@@ -61,9 +82,30 @@ public class RestExceptionHandler {
 		}
 
 		ModelAndView feignError = new ModelAndView("Home");
-		feignError.addObject("error");
+		feignError.addObject("error", errorMessage);
+
+		log.error("Feign Non unique value Exception");
+		return feignError;
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(FeignException.NotFound.class)
+	public ModelAndView handleFeignNotFoundExceptions(FeignException ex) {
+
+		String[] split = ex.getMessage().split("\"message\"")[1].split(",");
+		String errorMessage = split[0].substring(2, split[0].length() - 1);
+
+		if (errorMessage.contains("unauthorized user") || errorMessage.contains("No message available")) {
+			ModelAndView model = new ModelAndView("Login");
+			model.addObject("errormsg", "Session Expired...");
+			return model;
+		}
+
+		ModelAndView feignError = new ModelAndView("Home");
+		feignError.addObject("error", errorMessage);
 
 		log.error("Feign Not Found Exception" + errorMessage);
+
 		return feignError;
 	}
 
@@ -83,7 +125,7 @@ public class RestExceptionHandler {
 
 		log.error(ex.getMessage());
 		ModelAndView model = new ModelAndView("Cart");
-		model.addObject("errormsg", ex.getMessage());
+		model.addObject("msg", ex.getMessage());
 		return model;
 	}
 

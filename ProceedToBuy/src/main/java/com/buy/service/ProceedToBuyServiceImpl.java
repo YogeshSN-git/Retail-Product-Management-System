@@ -80,7 +80,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		Optional<Cart> customerCart = cartRepository.findById(customerId);
 		ProductItem productById = productFeign.searchProductById(token, productId);
 
-		if (!customerCart.isEmpty()) {
+		if (customerCart.isPresent()) {
 
 			cart = customerCart.get();
 
@@ -135,7 +135,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		ProductItem productById = productFeign.searchProductById(token, productId);
 
 		Wishlist wishlist;
-		if (wishlistById.isEmpty()) {
+		if (!wishlistById.isPresent()) {
 			List<ProductItem> productList = new ArrayList<>();
 
 			productList.add(productById);

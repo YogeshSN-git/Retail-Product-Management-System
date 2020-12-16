@@ -73,8 +73,12 @@ public class PortalServiceImpl implements PortalService {
 			log.info("searchProduct by name");
 
 			ProductItem productItem = productClient.searchProductByName(token, productName);
-			return proceedToBuyService.getProductById(productItem.getProductId(), request.getSession());
+//			return getProductById(productItem.getProductId(), request);
 
+			ModelAndView modelView = new ModelAndView("productpage");
+			modelView.addObject("productItem", productItem);
+			modelView.addObject("stock", vendorClient.getProductStock(productItem.getProductId(), token));
+			return modelView;
 		} else {
 
 			return getProductById(Integer.parseInt(productName), request);
@@ -111,6 +115,9 @@ public class PortalServiceImpl implements PortalService {
 		List<ProductItem> productList = cartList.getProductList();
 
 		ModelAndView model = new ModelAndView("Cart");
+
+		model.addObject("msg", "Your cart List");
+
 		model.addObject("cartList", cartList);
 		model.addObject("productList", productList);
 		return model;

@@ -12,8 +12,6 @@ import com.mvc.requestAndResponse.CartRequest;
 
 public interface ProceedToBuyService {
 
-	ModelAndView getProductById(int productid, HttpSession session);
-
 	ModelAndView addToWishList(int productid, HttpSession session, String referer);
 
 	ModelAndView addToCart(@Valid CartRequest cartRequest, BindingResult br, HttpSession session) throws ParseException;

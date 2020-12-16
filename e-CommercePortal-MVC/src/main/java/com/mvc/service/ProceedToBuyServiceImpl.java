@@ -40,20 +40,6 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	ProceedToBuyFeign proceedToBuyFeign;
 
 	@Override
-	public ModelAndView getProductById(int productid, HttpSession session) {
-		String token = (String) session.getAttribute("token");
-
-		ModelAndView modelView = new ModelAndView("productpage");
-
-		ProductItem productItem = productFeign.searchProductById(token, productid);
-		modelView.addObject("productItem", productItem);
-
-		modelView.addObject("stock", vendorFeign.getProductStock(productid, token));
-
-		return modelView;
-	}
-
-	@Override
 	public ModelAndView addToWishList(int productid, HttpSession session, String referer) {
 		String token = (String) session.getAttribute("token");
 
@@ -96,6 +82,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		List<ProductItem> productList = cart.getProductList();
 
 		ModelAndView modelView = new ModelAndView("Cart");
+		modelView.addObject("msg", "Your cart List");
 		modelView.addObject("cartList", cart);
 		modelView.addObject("productList", productList);
 

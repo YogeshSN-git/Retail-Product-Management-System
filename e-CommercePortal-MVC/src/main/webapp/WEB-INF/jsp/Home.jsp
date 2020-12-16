@@ -159,7 +159,7 @@ li a:hover:not(.active) {
 						<!-- <div class="card-deck"> -->
 						<a class="product-link"
 							href="/showProduct?productId=<c:out value="${product.productId}"></c:out>">
-							<div class="card  bg-light mb-3 border-dark">
+							<div class="card  bg-light mb-3 border-dark" style="margin: 1%">
 								<img src="${product.imageName}" height="400px"
 									class="card-img-top" alt="card image cap" />
 								<div class="card-body">

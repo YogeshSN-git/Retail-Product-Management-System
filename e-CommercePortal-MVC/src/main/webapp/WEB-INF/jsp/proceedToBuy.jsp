@@ -139,10 +139,10 @@ li a:hover:not(.active) {
 		</nav>
 	</header>
 
-	<div class="container container-fluid" style="width: 80%">
+	<div class="container container-fluid" style="width: 70%">
 
-		<div class="d-flex justify-content-between" style="margin: 10%">
-			<span class="card float-left" style="margin: 1%; width: 60%">
+		<div class="d-flex justify-content-between" >
+			<span class="card float-left" style="margin: 1%; width: 50%">
 				<img src="${productItem.imageName }" class="card-img-top"> <span
 				class="card-body">
 					<h5 class="card-title">${productItem.productName }</h5>

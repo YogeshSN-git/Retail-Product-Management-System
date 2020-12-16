@@ -25,16 +25,9 @@ public class ProceedToBuyController {
 	@Autowired
 	ProceedToBuyService proceedToBuyService;
 
-//	@GetMapping("/product/{productid}")
-//	public ModelAndView getProductById(@PathVariable int productid, HttpSession session) {
-//
-//		return proceedToBuyService.getProductById(productid, session);
-//
-//	}
-
 	@GetMapping("/addToCart")
-	public ModelAndView addToCart(@RequestParam Integer productId, @ModelAttribute("cartRequest") CartRequest cartRequest,
-			HttpSession session) {
+	public ModelAndView addToCart(@RequestParam Integer productId,
+			@ModelAttribute("cartRequest") CartRequest cartRequest, HttpSession session) {
 
 		return proceedToBuyService.proceedToBuy(cartRequest, productId, session);
 
