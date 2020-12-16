@@ -8,6 +8,6 @@ public class VendorApplicationTests {
 
 	@Test
 	public void contextLoad() {
-//		VendorApplication.main(new String[] {});
+		VendorApplication.main(new String[] {});
 	}
 }
