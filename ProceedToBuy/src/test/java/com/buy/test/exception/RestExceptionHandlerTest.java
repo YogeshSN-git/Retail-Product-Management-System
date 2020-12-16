@@ -3,6 +3,7 @@ package com.buy.test.exception;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.time.DateTimeException;
 
 import org.junit.jupiter.api.Test;
@@ -76,5 +77,16 @@ public class RestExceptionHandlerTest {
 	public void handleOutOfStockException() {
 		assertEquals(restExceptionHandler.handleOutOfStockException(new OutOfStockException()).getStatusCodeValue(),
 				400);
+	}
+
+	@Test
+	public void handleSocketTimeoutException() {
+		assertEquals(restExceptionHandler.handleSocketTimeoutException(new SocketTimeoutException("Connect timed out"))
+				.getStatusCodeValue(), 500);
+	}
+
+	@Test
+	public void handleFeignInternalServerError() {
+		assertEquals(restExceptionHandler.handleFeignInternalServerError(feignException).getStatusCodeValue(), 500);
 	}
 }

@@ -55,15 +55,15 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	ProductRepository productRepository;
 
 	@Override
-	public Cart addToCart(String token, String customer_Id, int product_Id, String zip_Code,
-			String expected_Delivery_Date, int quantity) throws ParseException {
+	public Cart addToCart(String token, String customerId, int productId, String zipCode, String expectedDeliveryDate,
+			int quantity) throws ParseException {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		List<Vendor> vendorsList = vendorFeign.getVendorDetails(product_Id, token);
+		List<Vendor> vendorsList = vendorFeign.getVendorDetails(productId, token);
 
 		if (vendorsList.isEmpty()) {
 			throw new OutOfStockException();
@@ -77,22 +77,22 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		}
 		Cart cart = null;
 
-		Optional<Cart> customerCart = cartRepository.findById(customer_Id);
-		ProductItem productById = productFeign.searchProductById(token, product_Id);
+		Optional<Cart> customerCart = cartRepository.findById(customerId);
+		ProductItem productById = productFeign.searchProductById(token, productId);
 
-		if (!customerCart.isEmpty()) {
+		if (customerCart.isPresent()) {
 
 			cart = customerCart.get();
 
 			List<ProductItem> productList = cart.getProductList();
-			isAlreadyInCart(productList, product_Id);
+			isAlreadyInCart(productList, productId);
 
 			productById.setQuanitity(quantity);
 			productById.setVendor(vendorDetails);
 			productList.add(productById);
 			cart.setProductList(productList);
 
-			cart.setDeliveryDate(dateFormat.parse(expected_Delivery_Date));
+			cart.setDeliveryDate(dateFormat.parse(expectedDeliveryDate));
 
 		} else {
 
@@ -102,7 +102,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			productById.setVendor(vendorDetails);
 			productList.add(productById);
 
-			cart = new Cart(customer_Id, zip_Code, dateFormat.parse(expected_Delivery_Date), productList);
+			cart = new Cart(customerId, zipCode, dateFormat.parse(expectedDeliveryDate), productList);
 
 		}
 
@@ -112,9 +112,9 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	}
 
 	@Override
-	public Boolean isAlreadyInCart(List<ProductItem> productList, int product_Id) {
+	public Boolean isAlreadyInCart(List<ProductItem> productList, int productId) {
 
-		boolean incart = productList.stream().anyMatch(product -> product.getProductId() == product_Id);
+		boolean incart = productList.stream().anyMatch(product -> product.getProductId() == productId);
 
 		if (incart) {
 			log.info("Already in Cart");
@@ -125,22 +125,22 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	}
 
 	@Override
-	public void addToWishList(String token, String customer_Id, int product_Id) {
+	public void addToWishList(String token, String customerId, int productId) {
 
 		if (!authFeign.getValidity(token).isValid()) {
 			throw new UnauthorizedException();
 		}
 
-		Optional<Wishlist> wishlistById = wishListRepository.findById(customer_Id);
-		ProductItem productById = productFeign.searchProductById(token, product_Id);
+		Optional<Wishlist> wishlistById = wishListRepository.findById(customerId);
+		ProductItem productById = productFeign.searchProductById(token, productId);
 
 		Wishlist wishlist;
-		if (wishlistById.isEmpty()) {
+		if (!wishlistById.isPresent()) {
 			List<ProductItem> productList = new ArrayList<>();
 
 			productList.add(productById);
 
-			wishlist = new Wishlist(customer_Id, new Date(), productList);
+			wishlist = new Wishlist(customerId, new Date(), productList);
 
 		}
 
@@ -148,7 +148,7 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			wishlist = wishlistById.get();
 			List<ProductItem> productList = wishlist.getProductList();
 
-			isAlreadyInWishList(productList, product_Id);
+			isAlreadyInWishList(productList, productId);
 
 			productList.add(productById);
 			wishlist.setProductList(productList);
@@ -159,8 +159,8 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	}
 
 	@Override
-	public Boolean isAlreadyInWishList(List<ProductItem> productList, int product_Id) {
-		boolean inList = productList.stream().anyMatch(product -> (product.getProductId() == product_Id));
+	public Boolean isAlreadyInWishList(List<ProductItem> productList, int productId) {
+		boolean inList = productList.stream().anyMatch(product -> (product.getProductId() == productId));
 
 		if (inList) {
 			log.info("Already in WishList");

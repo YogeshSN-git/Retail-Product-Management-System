@@ -1,6 +1,7 @@
 package com.buy.exceptions;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.time.DateTimeException;
 
 import org.springframework.http.HttpStatus;
@@ -12,11 +13,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.buy.response.MessageResponse;
 
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
 public class RestExceptionHandler {
+
+	@ExceptionHandler(SocketTimeoutException.class)
+	public ResponseEntity<MessageResponse> handleSocketTimeoutException(SocketTimeoutException ex) {
+		log.error(ex.getMessage());
+
+		MessageResponse msg = new MessageResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(FeignException.InternalServerError.class)
+	public ResponseEntity<MessageResponse> handleFeignInternalServerError(FeignException ex) {
+		log.error("Internal Server Error");
+
+		MessageResponse msg = new MessageResponse("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(UnauthorizedException.class)

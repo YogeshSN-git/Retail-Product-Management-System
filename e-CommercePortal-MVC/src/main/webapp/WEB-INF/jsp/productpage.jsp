@@ -142,7 +142,7 @@ li a:hover:not(.active) {
 	</header>
 	<%-- <input name="productid" value="${productItem.productId }" type="hidden"> --%>
 	<div class="container container-fluid" style="width: 50%">
-		<div class="card" style="margin: 10%">
+		<div class="card" style="margin: 5%">
 			<img src="${productItem.imageName }" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">${productItem.productName }

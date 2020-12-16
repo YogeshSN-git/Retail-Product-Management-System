@@ -10,16 +10,16 @@ import com.buy.entity.Wishlist;
 
 public interface ProceedToBuyService {
 
-	Cart addToCart(String token, String customer_Id, int product_Id, String zip_Code, String expected_Delivery_Date,
+	Cart addToCart(String token, String customerId, int productId, String zipCode, String expectedDate,
 			int quantity) throws ParseException;
 
-	void addToWishList(String token, String customer_Id, int product_Id);
+	void addToWishList(String token, String customerId, int productId);
 
 	Optional<Cart> customerCart(String token, String customerId);
 
 	Optional<Wishlist> customerWishList(String token, String customerId);
 
-	Boolean isAlreadyInWishList(List<ProductItem> productList, int product_Id);
+	Boolean isAlreadyInWishList(List<ProductItem> productList, int productId);
 
-	Boolean isAlreadyInCart(List<ProductItem> productList, int product_Id);
+	Boolean isAlreadyInCart(List<ProductItem> productList, int productId);
 }
