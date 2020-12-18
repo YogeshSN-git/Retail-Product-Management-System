@@ -44,7 +44,7 @@ public interface ProceedToBuyService {
 	void addToWishList(String token, String customerId, int productId) throws UnauthorizedException;
 
 	/**
-	 * Gets {@code Cart} from database object with id=customerId
+	 * Gets {@code Cart} from database with id=customerId
 	 * 
 	 * @param token      JWT token to validate user
 	 * @param customerId userId of customer

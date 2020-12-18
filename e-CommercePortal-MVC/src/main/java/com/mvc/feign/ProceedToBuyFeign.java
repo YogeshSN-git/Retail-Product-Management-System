@@ -17,19 +17,19 @@ import com.mvc.requestAndResponse.MessageResponse;
 @FeignClient(url = "${proceedtobuy.feign.url}", name = "proceedtobuy")
 public interface ProceedToBuyFeign {
 
-	@PostMapping("/addProductToCart/{customerid}/{productid}/{zipcode}/{deliverydate}/{quantity}")
+	@PostMapping("/addproducttocart/{customerid}/{productid}/{zipcode}/{deliverydate}/{quantity}")
 	public Cart addProductToCart(@RequestHeader("Authorization") final String token, @PathVariable String customerid,
 			@PathVariable int productid, @PathVariable String zipcode, @PathVariable String deliverydate,
 			@PathVariable int quantity) throws ParseException;
 
-	@PostMapping("/addProductToWishlist/{customerid}/{productid}")
+	@PostMapping("/addproducttowishlist/{customerid}/{productid}")
 	public ResponseEntity<MessageResponse> addProductToWishlist(@RequestHeader("Authorization") final String token,
 			@PathVariable String customerid, @PathVariable int productid);
 
-	@GetMapping("/viewCart/{customerid}")
+	@GetMapping("/viewcart/{customerid}")
 	public Optional<Cart> viewCart(@RequestHeader("Authorization") final String token, @PathVariable String customerid);
 
-	@GetMapping("/viewWishList/{customerid}")
+	@GetMapping("/viewwishlist/{customerid}")
 	public Optional<Wishlist> viewWishList(@RequestHeader("Authorization") final String token,
 			@PathVariable String customerid);
 
