@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class CustomerDetailsServiceImpl implements CustomerDetailsService{
+public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	@Autowired
 	private UserDAO userdao;
 	@Autowired
@@ -27,21 +27,19 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String uid) {
-		log.info("Service to loadUserByUsername");
 		Optional<UserData> userData = userdao.findById(uid);
-		if(userData==null) {
+		if (userData == null) {
 			log.error("Unauthorized exception");
 			throw new UnauthorizedException("unauthorized");
 		}
 		UserData user = userData.get();
-		
+
 		return new User(user.getUserid(), user.getUpassword(), new ArrayList<>());
 	}
 
 	@Override
 	public UserData login(UserData userlogincredentials) {
-		log.info("Service to login");
-		final UserDetails userdetails =loadUserByUsername(userlogincredentials.getUserid());
+		final UserDetails userdetails = loadUserByUsername(userlogincredentials.getUserid());
 		String uid = "";
 		String generateToken = "";
 		if (userdetails.getPassword().equals(userlogincredentials.getUpassword())) {
@@ -56,7 +54,6 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService{
 
 	@Override
 	public AuthResponse getValidity(String token) {
-		//String token1 = token.substring(7);
 		AuthResponse res = new AuthResponse();
 		if (jwtutil.validateToken(token)) {
 			res.setUid(jwtutil.extractUsername(token));
