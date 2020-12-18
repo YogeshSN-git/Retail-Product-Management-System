@@ -24,6 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	/**
+	 * Handles SocketTimeoutException
+	 * 
+	 * @param ex Exception object to get SocketTimeoutException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(SocketTimeoutException.class)
 	public ResponseEntity<Message> handleSocketTimeoutException(SocketTimeoutException ex) {
 		log.error(ex.getMessage());
@@ -31,6 +37,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/**
+	 * Handles FeignException
+	 * 
+	 * @param ex Exception object to get FeignException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(FeignException.InternalServerError.class)
 	public ResponseEntity<Message> handleFeignInternalServerError(FeignException ex) {
 		log.error("Internal Server Error");
@@ -38,6 +50,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/**
+	 * Handles ProductIdNotFoundException
+	 * 
+	 * @param ex Exception object to get ProductIdNotFoundException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(ProductIdNotFoundException.class)
 	public ResponseEntity<Message> productIdNotFoundExceptionHandler(ProductIdNotFoundException ex) {
 		log.error(ex.getMessage());
@@ -45,6 +63,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Handles ProductNameNotFoundException
+	 * 
+	 * @param ex Exception object to get ProductNameNotFoundException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(ProductNameNotFoundException.class)
 	public ResponseEntity<Message> productNameNotFoundExceptionHandler(ProductNameNotFoundException ex) {
 		log.error(ex.getMessage());
@@ -52,6 +76,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Handles RatingNotValidException
+	 * 
+	 * @param ex Exception object to get RatingNotValidException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(RatingNotValidException.class)
 	public ResponseEntity<Message> ratingNotValidExceptionHandler(RatingNotValidException ex) {
 		log.error(ex.getMessage());
@@ -59,6 +89,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Handles InvalidUser
+	 * 
+	 * @param exp Exception object to get InvalidUser message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(InvalidUser.class)
 	public ResponseEntity<Message> invalidUserExceptionHandler(InvalidUser exp) {
 		log.error(exp.getMessage());
@@ -66,20 +102,41 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Message>(msg1, HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Handles NumberFormatException
+	 * 
+	 * @param numberFormatException Exception object to get NumberFormatException
+	 *                              message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(NumberFormatException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> methodArgumentMismatchException(NumberFormatException numberFormatException) {
+		log.error("Valid data must be entered");
 		return ResponseEntity.badRequest()
 				.body(new Msg(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "Enter valid data"));
 	}
 
+	/**
+	 * Handles MissingRequestHeaderException
+	 * 
+	 * @param ex Exception object to get MissingRequestHeaderException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> missingHeaderExceptionHandler(MissingRequestHeaderException ex) {
+		log.error("Required Bearer Token");
 		return ResponseEntity.badRequest()
 				.body(new Msg(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "Authorisation required"));
 	}
 
+	/**
+	 * Handles ConnectException
+	 * 
+	 * @param ex Exception object to get ConnectException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(ConnectException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> connectionExceptionHandler(ConnectException ex) {
@@ -88,9 +145,16 @@ public class GlobalExceptionHandler {
 				.body(new Msg(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "Service is down"));
 	}
 
+	/**
+	 * Handles NonUniqueResultException
+	 * 
+	 * @param ex Exception object to get NonUniqueResultException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(NonUniqueResultException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseEntity<?> nonUniqueResultExceptionHandler(NonUniqueResultException ex) {
+		log.error("Unique product must be entered");
 		return ResponseEntity.unprocessableEntity()
 				.body(new Msg(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "Enter a unique product name"));
 	}
