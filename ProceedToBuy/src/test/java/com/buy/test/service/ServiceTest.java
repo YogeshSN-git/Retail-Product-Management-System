@@ -22,7 +22,6 @@ import com.buy.entity.Vendor;
 import com.buy.entity.Wishlist;
 import com.buy.exceptions.AlreadyInCartException;
 import com.buy.exceptions.AlreadyInWishlistException;
-import com.buy.exceptions.OutOfStockException;
 import com.buy.exceptions.UnauthorizedException;
 import com.buy.feign.AuthFeign;
 import com.buy.feign.ProductFeign;
@@ -167,19 +166,6 @@ public class ServiceTest {
 	}
 
 	@Test
-	public void outOfStockTest() {
-		AuthResponse response = new AuthResponse("uid", "name", true);
-		when(authFeign.getValidity("token")).thenReturn(response);
-
-		List<Vendor> vendorList = new ArrayList<>();
-		when(vendorFeign.getVendorDetails(1, "token")).thenReturn(vendorList);
-
-		assertThrows(OutOfStockException.class,
-				() -> serviceImpl.addToCart("token", "admin", 1, "zip_Code", "date", 2));
-
-	}
-
-	@Test
 	public void newCartTest() throws ParseException {
 		AuthResponse response = new AuthResponse("uid", "name", true);
 		when(authFeign.getValidity("token")).thenReturn(response);
@@ -260,6 +246,5 @@ public class ServiceTest {
 		when(productFeign.searchProductById("token", 1)).thenReturn(item1);
 		serviceImpl.addToCart("token", "admin", 1, "zip_Code", "30-12-2020", 1);
 	}
-
 
 }
