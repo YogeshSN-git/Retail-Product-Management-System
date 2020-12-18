@@ -23,7 +23,19 @@ public class ProceedToBuyController {
 	@Autowired
 	ProceedToBuyService proceedToBuyService;
 
-	@PostMapping("/addProductToCart/{customerid}/{productid}/{zipcode}/{deliverydate}/{quantity}")
+	/**
+	 * Add ProductItem to Cart
+	 * 
+	 * @param token        JWT token to validate user
+	 * @param customerid   userId of customer
+	 * @param productid    Id to get ProductItem
+	 * @param zipcode      Product delivery zipcode
+	 * @param deliverydate Product expected delivery date
+	 * @param quantity     Product Quantity
+	 * @return if ProductItem is added to cart then return {@code Cart}
+	 * @throws ParseException Throws ParseException if date format doesn't match
+	 */
+	@PostMapping("/addproducttocart/{customerid}/{productid}/{zipcode}/{deliverydate}/{quantity}")
 	public Cart addProductToCart(@RequestHeader("Authorization") final String token, @PathVariable String customerid,
 			@PathVariable int productid, @PathVariable String zipcode, @PathVariable String deliverydate,
 			@PathVariable int quantity) throws ParseException {
@@ -31,7 +43,15 @@ public class ProceedToBuyController {
 		return proceedToBuyService.addToCart(token, customerid, productid, zipcode, deliverydate, quantity);
 	}
 
-	@PostMapping("/addProductToWishlist/{customerid}/{productid}")
+	/**
+	 * Add ProductItem to WishList
+	 * 
+	 * @param token      JWT token to validate user
+	 * @param customerid userId of customer
+	 * @param productid  Id to get ProductItem
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
+	@PostMapping("/addproducttowishlist/{customerid}/{productid}")
 	public ResponseEntity<MessageResponse> addProductToWishlist(@RequestHeader("Authorization") final String token,
 			@PathVariable String customerid, @PathVariable int productid) {
 
@@ -39,14 +59,28 @@ public class ProceedToBuyController {
 		return ResponseEntity.ok().body(new MessageResponse("Added to WishList", HttpStatus.ACCEPTED));
 	}
 
-	@GetMapping("/viewCart/{customerid}")
+	/**
+	 * View cart details
+	 * 
+	 * @param token      JWT token to validate user
+	 * @param customerid userId of customer
+	 * @return if token is valid then return {@code Optional<Cart>}
+	 */
+	@GetMapping("/viewcart/{customerid}")
 	public Optional<Cart> viewCart(@RequestHeader("Authorization") final String token,
 			@PathVariable String customerid) {
 
 		return proceedToBuyService.customerCart(token, customerid);
 	}
 
-	@GetMapping("/viewWishList/{customerid}")
+	/**
+	 * View wishList details
+	 * 
+	 * @param token      JWT token to validate user
+	 * @param customerid userId of customer
+	 * @return if token is valid then return {@code Optional<Wishlist>}
+	 */
+	@GetMapping("/viewwishlist/{customerid}")
 	public Optional<Wishlist> viewWishList(@RequestHeader("Authorization") final String token,
 			@PathVariable String customerid) {
 

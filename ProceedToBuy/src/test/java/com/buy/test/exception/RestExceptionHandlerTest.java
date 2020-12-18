@@ -13,7 +13,6 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 
 import com.buy.exceptions.AlreadyInCartException;
 import com.buy.exceptions.AlreadyInWishlistException;
-import com.buy.exceptions.OutOfStockException;
 import com.buy.exceptions.RestExceptionHandler;
 import com.buy.exceptions.UnauthorizedException;
 
@@ -74,12 +73,6 @@ public class RestExceptionHandlerTest {
 	}
 
 	@Test
-	public void handleOutOfStockException() {
-		assertEquals(restExceptionHandler.handleOutOfStockException(new OutOfStockException()).getStatusCodeValue(),
-				400);
-	}
-
-	@Test
 	public void handleSocketTimeoutException() {
 		assertEquals(restExceptionHandler.handleSocketTimeoutException(new SocketTimeoutException("Connect timed out"))
 				.getStatusCodeValue(), 500);
@@ -88,5 +81,15 @@ public class RestExceptionHandlerTest {
 	@Test
 	public void handleFeignInternalServerError() {
 		assertEquals(restExceptionHandler.handleFeignInternalServerError(feignException).getStatusCodeValue(), 500);
+	}
+
+	@Test
+	public void handleBadRequestError() {
+		assertEquals(restExceptionHandler.handleFeignBadRequest(feignException).getStatusCodeValue(), 400);
+	}
+
+	@Test
+	public void handleFeignNotFound() {
+		assertEquals(restExceptionHandler.handleFeignNotFoundError(feignException).getStatusCodeValue(), 404);
 	}
 }

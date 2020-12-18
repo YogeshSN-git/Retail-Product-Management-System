@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "product")
 public class ProductItem {
@@ -37,7 +39,7 @@ public class ProductItem {
 	private String imageName;
 	@Column(name = "rating")
 	private double rating;
-	
+
 	private int quanitity;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

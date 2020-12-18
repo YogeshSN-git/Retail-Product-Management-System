@@ -26,9 +26,20 @@ public class ProductTest {
 
 		product.hashCode();
 
-		assertTrue(product.toString().contains("imageName"));
-		assertNotNull(new ProductItem(product.getProductId(), product.getProductName(), product.getDescription(),
-				product.getProductPrice(), product.getImageName(), product.getRating(), product.getQuanitity(),
-				vendor));
+		ProductItem productItem = new ProductItem(product.getProductId(), product.getProductName(),
+				product.getDescription(), product.getProductPrice(), product.getImageName(), product.getRating(),
+				product.getQuanitity(), vendor);
+		assertNotNull(productItem);
+		assertTrue(product.toString().equals(productItem.toString()));
 	}
+
+	@Test
+	public void builderTest() {
+		ProductItem productItem = ProductItem.builder().productId(1).productName("productName").productPrice(10)
+				.imageName("imageName").quanitity(2).description("description").rating(3).vendor(new Vendor()).build();
+		
+		ProductItem.builder().toString();
+		assertTrue(productItem.toString().contains("productName"));
+	}
+
 }

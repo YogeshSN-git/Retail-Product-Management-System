@@ -12,6 +12,13 @@ import com.buy.entity.Vendor;
 @FeignClient(url = "${vendor.feign.url}", name = "vendor")
 public interface VendorFeign {
 
+	/**
+	 * Calling Vendor Service to get list of vendor details
+	 * 
+	 * @param productId ProductId
+	 * @param token     JWT token to validate user
+	 * @return returns {@code List<Vendor>} selling ProductItem
+	 */
 	@GetMapping("/vendor/{productId}")
-	public List<Vendor> getVendorDetails(@PathVariable int productId,@RequestHeader("Authorization") String token) ;
+	public List<Vendor> getVendorDetails(@PathVariable int productId, @RequestHeader("Authorization") String token);
 }
