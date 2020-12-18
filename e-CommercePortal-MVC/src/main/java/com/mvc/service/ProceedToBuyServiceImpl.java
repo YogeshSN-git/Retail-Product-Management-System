@@ -43,12 +43,11 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 	public ModelAndView addToWishList(int productid, HttpSession session, String referer) {
 		String token = (String) session.getAttribute("token");
 
-		ModelAndView modelView = new ModelAndView("redirect:" + referer);
 		String customerid = (String) session.getAttribute("name");
 
 		proceedToBuyFeign.addProductToWishlist(token, customerid, productid);
 
-		return modelView;
+		return new ModelAndView("redirect:" + referer);
 	}
 
 	@Override
@@ -56,14 +55,14 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 			throws ParseException {
 		String token = (String) session.getAttribute("token");
 
-		if (br.hasErrors()
-				|| cartRequest.getQuantity() > vendorFeign.getProductStock(cartRequest.getProductId(), token)) {
+		if (cartRequest.getQuantity() > vendorFeign.getProductStock(cartRequest.getProductId(), token)) {
+			br.addError(new FieldError("cartRequest", "quantity", "Quantity should be less than stock"));
+		}
+
+		if (br.hasErrors()) {
 
 			ModelAndView errorModelView = proceedToBuy(cartRequest, cartRequest.getProductId(), session);
 
-			if (cartRequest.getQuantity() > vendorFeign.getProductStock(cartRequest.getProductId(), token)) {
-				br.addError(new FieldError("cartRequest", "quantity", "Quantity should be less than stock"));
-			}
 			return errorModelView;
 		}
 

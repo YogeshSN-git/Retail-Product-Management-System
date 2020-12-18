@@ -104,7 +104,7 @@ public class RestExceptionHandler {
 		ModelAndView feignError = new ModelAndView("Home");
 		feignError.addObject("error", errorMessage);
 
-		log.error("Feign Not Found Exception" + errorMessage);
+		log.error("Feign Not Found Exception");
 
 		return feignError;
 	}
