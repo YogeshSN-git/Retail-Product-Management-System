@@ -1,10 +1,13 @@
-package com.vendor.entity;
+package com.vendor.test.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
+
+import com.vendor.entity.Vendor;
+import com.vendor.entity.VendorStock;
 
 public class VendorStockTest {
 	VendorStock vendorStock = new VendorStock();

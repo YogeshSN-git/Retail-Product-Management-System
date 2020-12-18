@@ -1,4 +1,4 @@
-package com.vendor.entity;
+package com.vendor.test.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,6 +6,8 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+
+import com.vendor.entity.MessageResponse;
 
 
 public class MessageResponseTest {

@@ -1,4 +1,4 @@
-package com.vendor.exception;
+package com.vendor.test.exception;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,6 +12,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.MissingRequestHeaderException;
 
+import com.vendor.exception.OutOfStockException;
+import com.vendor.exception.ProductItemNotFoundException;
+import com.vendor.exception.RestExceptionHandler;
+import com.vendor.exception.UnauthorizedException;
+
 import feign.FeignException;
 
 @SpringBootTest
@@ -19,7 +24,6 @@ import feign.FeignException;
 public class RestExceptionHandlerTest {
 	@InjectMocks
 	RestExceptionHandler restExceptionHandler;
-	// @Autowired
 	FeignException feignException;
 
 	@Test
@@ -28,7 +32,12 @@ public class RestExceptionHandlerTest {
 				restExceptionHandler.handleUnauthorizedExceptions(new UnauthorizedException(null)).getStatusCodeValue(),
 				400);
 	}
-
+	@Test
+	public void handleOutOfStockExceptions() {
+		assertEquals(
+				restExceptionHandler.handleOutOfStockException(new OutOfStockException()).getStatusCodeValue(),
+				400);
+	}
 	@Test
 	public void handleProductItemNotFoundExceptions() {
 		assertEquals(restExceptionHandler.handleProductItemNotFoundException(new ProductItemNotFoundException(null))

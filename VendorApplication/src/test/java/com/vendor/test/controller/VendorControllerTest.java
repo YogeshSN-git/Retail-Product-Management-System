@@ -1,4 +1,4 @@
-package com.vendor.controller;
+package com.vendor.test.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.vendor.client.AuthClient;
+import com.vendor.controller.VendorController;
 import com.vendor.entity.AuthResponse;
 import com.vendor.entity.Vendor;
 import com.vendor.exception.UnauthorizedException;

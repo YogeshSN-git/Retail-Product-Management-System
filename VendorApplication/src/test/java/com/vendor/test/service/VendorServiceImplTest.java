@@ -1,4 +1,4 @@
-package com.vendor.service;
+package com.vendor.test.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,9 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.vendor.entity.Vendor;
 import com.vendor.entity.VendorStock;
+import com.vendor.exception.OutOfStockException;
 import com.vendor.exception.ProductItemNotFoundException;
 import com.vendor.repository.VendorRepository;
 import com.vendor.repository.VendorStockRepository;
+import com.vendor.service.VendorServiceImpl;
 
 @SpringBootTest
 public class VendorServiceImplTest {
@@ -33,17 +33,15 @@ public class VendorServiceImplTest {
 	@Test
 	void testGetVendorDetails() throws ProductItemNotFoundException, IOException, ParseException {
 		VendorStock stock = new VendorStock();
+		stock.setProductId(1);
 		Vendor vendor = new Vendor();
-//		Optional<Vendor> data = Optional.of(vendor);
 		List<Vendor> vendorList = new ArrayList<Vendor>();
 		List<VendorStock> stockList = new ArrayList<VendorStock>();
 		stockList.add(stock);
-		
-		
 		vendorList.add(vendor);
 		stock.setVendor(vendor);
+		when(vendorStockRepository.existsByProductId(1)).thenReturn(true);
 		when(vendorStockRepository.findByProductIdAndProductStockGreaterThan(1,0)).thenReturn(stockList);
-//		when(vendorRepository.findById(1)).thenReturn(data);
 		assertEquals(vendorServiceImpl.getVendorDetails(1), vendorList);
 	}
 
@@ -69,20 +67,17 @@ public class VendorServiceImplTest {
 	}
 
 	@Test
-	void test() throws ProductItemNotFoundException, IOException, ParseException {
-		Vendor vendor = new Vendor();
-		vendor.setVendorId(1);
-		Optional<Vendor> data = Optional.of(vendor);
+	void testOutOfStockException()
+	{
 		VendorStock stock = new VendorStock();
-		stock.setVendor(vendor);
-		stock.setProductStock(1);
-		List<VendorStock> stockList = new ArrayList<VendorStock>();
+		Vendor vendor = new Vendor();
 		List<Vendor> vendorList = new ArrayList<Vendor>();
-		vendorList.add(vendor);
+		List<VendorStock> stockList = new ArrayList<VendorStock>();
 		stockList.add(stock);
-		when(vendorStockRepository.findByProductIdAndProductStockGreaterThan(1,0)).thenReturn(stockList);
-		when(vendorRepository.findById(1)).thenReturn(data);
-		assertEquals(vendorServiceImpl.getVendorDetails(1), vendorList);
-
+		vendorList.add(vendor);
+		stock.setVendor(vendor);
+		when(vendorStockRepository.existsByProductId(1)).thenReturn(true);
+		when(vendorStockRepository.findByProductIdAndProductStockGreaterThan(2,0)).thenReturn(stockList);
+		assertThrows(OutOfStockException.class,()->vendorServiceImpl.getVendorDetails(1));
 	}
 }

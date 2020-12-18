@@ -1,9 +1,11 @@
 
-package com.vendor.entity;
+package com.vendor.test.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+
+import com.vendor.entity.AuthResponse;
 
 class AuthResponseTest {
 

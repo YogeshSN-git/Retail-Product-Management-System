@@ -1,4 +1,4 @@
-package com.vendor.entity;
+package com.vendor.test.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import com.vendor.entity.Vendor;
+import com.vendor.entity.VendorStock;
 
 public class VendorTest 
 {
