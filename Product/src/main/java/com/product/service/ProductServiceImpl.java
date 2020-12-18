@@ -61,10 +61,7 @@ public class ProductServiceImpl implements ProductService {
 	public void addProductRating(String token, int id, int rating)
 			throws ProductIdNotFoundException, RatingNotValidException {
 
-		if (rating <= 0) {
-			throw new RatingNotValidException("Enter valid Rating");
-		}
-		if (rating > 5) {
+		if (rating <= 0 || rating > 5) {
 			throw new RatingNotValidException("Enter valid Rating");
 		}
 		if (productRepository.existsById(id)) {
