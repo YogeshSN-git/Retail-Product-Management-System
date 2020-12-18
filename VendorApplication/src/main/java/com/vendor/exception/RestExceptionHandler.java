@@ -22,6 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class RestExceptionHandler {
 
+	/**
+	 * @param ex exception object to get SocketTimeoutException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(SocketTimeoutException.class)
 	public ResponseEntity<MessageResponse> handleSocketTimeoutException(SocketTimeoutException ex) {
 		log.error(ex.getMessage());
@@ -30,6 +34,10 @@ public class RestExceptionHandler {
 		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/**
+	 * @param ex exception object to get FeignException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ExceptionHandler(FeignException.InternalServerError.class)
 	public ResponseEntity<MessageResponse> handleFeignInternalServerError(FeignException ex) {
 		log.error("Internal Server Error");
@@ -38,6 +46,24 @@ public class RestExceptionHandler {
 		return new ResponseEntity<MessageResponse>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/**
+	 * Handles OutOfStockException
+	 * 
+	 * @param ex exception object to get OutOfStockException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(OutOfStockException.class)
+	public ResponseEntity<MessageResponse> handleOutOfStockException(OutOfStockException ex) {
+
+		log.error(ex.getMessage());
+		return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage(), HttpStatus.NOT_FOUND));
+	}
+
+	/**
+	 * @param ex exception object to get UnauthorizedException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(UnauthorizedException.class)
 	public ResponseEntity<MessageResponse> handleUnauthorizedExceptions(UnauthorizedException ex) {
@@ -47,20 +73,21 @@ public class RestExceptionHandler {
 				.body(new MessageResponse("Unauthorized request. Login again...", HttpStatus.UNAUTHORIZED));
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	/**
+	 * @param ex exception object to get ProductItemNotFoundException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
+	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(ProductItemNotFoundException.class)
 	public ResponseEntity<MessageResponse> handleProductItemNotFoundException(ProductItemNotFoundException ex) {
 		log.error("Product Id not found");
-		return ResponseEntity.badRequest().body(new MessageResponse("Product Id not found", HttpStatus.BAD_REQUEST));
+		return ResponseEntity.badRequest().body(new MessageResponse("Product Id not found", HttpStatus.NOT_FOUND));
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(VendorNotFoundException.class)
-	public ResponseEntity<MessageResponse> handleVendorNotFoundException(VendorNotFoundException ex) {
-		log.error("Vendor not found");
-		return ResponseEntity.badRequest().body(new MessageResponse("Vendor not found", HttpStatus.BAD_REQUEST));
-	}
-
+	/**
+	 * @param ex exception object to get FeignException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(FeignException.BadRequest.class)
 	public ResponseEntity<?> handleFeignBadRequestExceptions(FeignException ex) {
@@ -69,6 +96,10 @@ public class RestExceptionHandler {
 		return ResponseEntity.badRequest().body(new MessageResponse("Feign Exception", HttpStatus.BAD_REQUEST));
 	}
 
+	/**
+	 * @param ex exception object to get ConnectException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ConnectException.class)
 	public ResponseEntity<?> handleConnectExceptions(ConnectException ex) {
@@ -78,6 +109,10 @@ public class RestExceptionHandler {
 				.body(new MessageResponse("Client service down", HttpStatus.SERVICE_UNAVAILABLE));
 	}
 
+	/**
+	 * @param ex exception object to get MissingRequestHeaderException message
+	 * @return {@code ResponseEntity<MessageResponse>}
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	public ResponseEntity<?> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {

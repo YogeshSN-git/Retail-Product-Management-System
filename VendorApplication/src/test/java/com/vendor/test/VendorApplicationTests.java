@@ -1,4 +1,4 @@
-package com.vendor;
+package com.vendor.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,6 @@ public class VendorApplicationTests {
 
 	@Test
 	public void contextLoad() {
-		VendorApplication.main(new String[] {});
+//		VendorApplication.main(new String[] {});
 	}
 }
