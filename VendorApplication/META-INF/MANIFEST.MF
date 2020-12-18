@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: VendorApplication
 Bundle-SymbolicName: VendorApplication
 Bundle-Version: 1.0.0.qualifier
-Export-Package: com.vendor,
- com.vendor.client,
+Export-Package: com.vendor.client,
  com.vendor.config,
  com.vendor.controller,
  com.vendor.entity,
  com.vendor.exception,
  com.vendor.repository,
- com.vendor.service
+ com.vendor.service,
+ com.vendor.test

@@ -4,14 +4,28 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import com.vendor.entity.Vendor;
 import com.vendor.exception.ProductItemNotFoundException;
-import com.vendor.exception.VendorNotFoundException;
 
 public interface VendorService {
-	public ResponseEntity<List<Vendor>> getVendorDetails(int productId,String token) throws IOException, ParseException,ProductItemNotFoundException,VendorNotFoundException;
-	
-	public int getProductStock(int productId,String token)throws ProductItemNotFoundException ;
+
+	/**
+	 * Retrieves vendor details from database which contains product stock more than
+	 * 0 for given productId
+	 * 
+	 * @param productId Id to get ProductItem
+	 * @return list of vendor objects for given productId
+	 * @throws ProductItemNotFoundException throws when productId is not found
+	 */
+	public List<Vendor> getVendorDetails(int productId)
+			throws IOException, ParseException, ProductItemNotFoundException;
+
+	/**
+	 * Return highest product stock of given productId among all vendor stocks
+	 * 
+	 * @param productId Id to get ProductItem
+	 * @return the number of products available for given productId
+	 * @throws ProductItemNotFoundException throws when productId is not found
+	 */
+	public int getProductStock(int productId) throws ProductItemNotFoundException;
 }
