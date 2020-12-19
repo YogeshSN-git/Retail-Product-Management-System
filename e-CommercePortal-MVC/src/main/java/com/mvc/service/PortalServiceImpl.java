@@ -51,14 +51,14 @@ public class PortalServiceImpl implements PortalService {
 		}
 		request.getSession().setAttribute("token", "Bearer " + userToken.getAuthToken());
 		request.getSession().setAttribute("name", userToken.getUserid());
-		modelAndView.setViewName("redirect:home");
+		modelAndView.setViewName("redirect:home?pageno=1");
 		return modelAndView;
 	}
 
 	@Override
-	public ModelAndView displayProductList(HttpServletRequest request) {
+	public ModelAndView displayProductList(int pageno, HttpServletRequest request) {
 		String token = (String) request.getSession().getAttribute("token");
-		List<ProductItem> productList = productClient.getAll(token);
+		List<ProductItem> productList = productClient.getAll(pageno, token);
 
 		ModelAndView model = new ModelAndView("Home");
 		model.addObject("productList", productList);

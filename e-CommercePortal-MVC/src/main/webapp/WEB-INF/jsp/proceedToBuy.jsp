@@ -25,7 +25,7 @@
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 
-<title>Insert title here</title>
+<title>${productItem.productName }</title>
 
 <style type="text/css">
 #card-img-top {
@@ -119,7 +119,7 @@ li a:hover:not(.active) {
 				<li><img
 					src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
 					alt="Retail Icon" width="110" height="52"></li>
-				<li><a class="active" href="home">Home</a></li>
+				<li><a class="active" href="/home?pageno=1">Home</a></li>
 				<div class="search">
 					<form method="post" modelAttribute="productName"
 						action="searchProduct">
@@ -139,39 +139,45 @@ li a:hover:not(.active) {
 		</nav>
 	</header>
 
-	<div class="container container-fluid" style="width: 70%">
+	<div class="container container-fluid">
 
-		<div class="d-flex justify-content-between" >
-			<span class="card float-left" style="margin: 1%; width: 50%">
-				<img src="${productItem.imageName }" class="card-img-top"> <span
-				class="card-body">
+		<div class="row">
+
+			<div class="card col-xl-6 mt-3">
+				<img src="${productItem.imageName }" class="card-img-top">
+				<div class="card-body">
 					<h5 class="card-title">${productItem.productName }</h5>
-					<p class="card-text">${productItem.description }</p>
-					<p class="card-text">${productItem.productPrice }</p>
-			</span>
+					<p class="card-text">Description:&nbsp;${productItem.description }</p>
+					<p class="card-text">Price:&nbsp;${productItem.productPrice }</p>
+					<p class="card-text">Left in Stock:&nbsp;${stock }</p>
+				</div>
 
-			</span> <span class="float-right d-flex align-items-center"
-				style="margin: 1%"> <form:form action="/addProductToCart"
-					modelAttribute="cartRequest" method="POST">
+			</div>
+
+
+			<div class="col-xl-4 mt-3 d-flex align-items-center">
+
+				<form:form action="/addProductToCart" modelAttribute="cartRequest"
+					method="POST">
 					<form:input path="productId" type="hidden"
 						value="${productItem.productId }" />
-					<div class="form-group">
+					<div class="form-group xl-3">
 						Quantity
-						<form:input class="form-control" path="quantity" />
+						<form:input class="form-control xl-3" path="quantity" />
 						<br>
 						<form:errors path="quantity" class="alert alert-danger"
 							role="alert" />
 					</div>
 					<div class="form-group">
 						Zip Code
-						<form:input class="form-control" path="zipcode" />
+						<form:input class="form-control xl-3" path="zipcode" />
 						<br>
 						<form:errors path="zipcode" class="alert alert-danger"
 							role="alert" />
 					</div>
 					<div class="form-group">
 						Rating
-						<form:input class="form-control" path="rating" />
+						<form:input class="form-control xl-3" path="rating" />
 						<br>
 						<form:errors path="rating" class="alert alert-danger" role="alert" />
 					</div>
@@ -180,9 +186,11 @@ li a:hover:not(.active) {
 						<c:out value="${deliveryDate}"></c:out>
 					</div>
 					<input class="btn btn-primary" type="submit" value="Add to cart">
-				</form:form></span>
+				</form:form>
+			</div>
 		</div>
 	</div>
+	<!-- </div> -->
 
 
 

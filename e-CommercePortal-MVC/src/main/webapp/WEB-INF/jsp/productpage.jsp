@@ -121,7 +121,7 @@ li a:hover:not(.active) {
 				<li><img
 					src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
 					alt="Retail Icon" width="110" height="52"></li>
-				<li><a class="active" href="home">Home</a></li>
+				<li><a class="active" href="/home?pageno=1">Home</a></li>
 				<div class="search">
 					<form method="post" modelAttribute="productName"
 						action="searchProduct">
@@ -140,9 +140,9 @@ li a:hover:not(.active) {
 			</ul>
 		</nav>
 	</header>
-	<%-- <input name="productid" value="${productItem.productId }" type="hidden"> --%>
-	<div class="container container-fluid" style="width: 50%">
-		<div class="card" style="margin: 5%">
+
+	<div class="container container-fluid" ><!-- style="width: 50%" -->
+		<div class="card col-xl-7" style="margin: 5%">
 			<img src="${productItem.imageName }" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">${productItem.productName }

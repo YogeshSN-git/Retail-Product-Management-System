@@ -26,7 +26,7 @@
 </head>
 <body>
 	<p class="alert alert-danger" role="alert"> ${errorMessage }</p>
-	<a class="btn btn-primary" href="/home">Go to home page</a>
+	<a class="btn btn-primary" href="/home?pageno=1">Go to home page</a>
 
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
