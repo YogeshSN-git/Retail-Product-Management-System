@@ -54,8 +54,8 @@ public class PortalController {
 	 * @return Home page displaying all products
 	 */
 	@GetMapping("/home")
-	public ModelAndView home(HttpServletRequest request) {
-		return portalService.displayProductList(request);
+	public ModelAndView home(@RequestParam int pageno, HttpServletRequest request) {
+		return portalService.displayProductList(pageno, request);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.mvc.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mvc.model.UserData;
@@ -20,7 +21,7 @@ public interface PortalService {
 	 * @param request HttpServletRequest object
 	 * @return
 	 */
-	public ModelAndView displayProductList(HttpServletRequest request);
+	public ModelAndView displayProductList(int pageno, HttpServletRequest request);
 
 	/**
 	 * @param productId Id to get ProductItem

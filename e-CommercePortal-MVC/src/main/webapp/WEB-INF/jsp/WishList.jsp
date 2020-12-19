@@ -142,7 +142,7 @@ li a:hover:not(.active) {
 				<li><img
 					src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
 					alt="Retail Icon" width="110" height="52"></li>
-				<li><a class="active" href="home">Home</a></li>
+				<li><a class="active" href="/home?pageno=1">Home</a></li>
 				<div class="search">
 					<form method="post" modelAttribute="productName"
 						action="searchProduct">
@@ -153,6 +153,7 @@ li a:hover:not(.active) {
 						</button>
 					</form>
 				</div>
+
 				<li style="float: right"><a class="link" href="logout">Logout</a></li>
 				<li style="float: right"><a class="link" href="cart">Cart</a></li>
 				<li style="float: right"><a class="link" href="wishlist">Wishlist</a></li>

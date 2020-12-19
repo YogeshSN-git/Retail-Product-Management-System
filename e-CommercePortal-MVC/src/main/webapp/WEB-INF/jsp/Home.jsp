@@ -128,7 +128,7 @@ li a:hover:not(.active) {
 				<li><img
 					src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
 					alt="Retail Icon" width="110" height="52"></li>
-				<li><a class="active" href="home">Home</a></li>
+				<li><a class="active" href="/home?pageno=1">Home</a></li>
 				<div class="search">
 					<form method="post" modelAttribute="productName"
 						action="searchProduct">
@@ -155,7 +155,7 @@ li a:hover:not(.active) {
 		<div class="container w-100">
 			<div class="row">
 				<c:forEach items="${productList}" var="product">
-					<div class="column w-50">
+					<div class="col-xl-6 mt-3">
 						<!-- <div class="card-deck"> -->
 						<a class="product-link"
 							href="/showProduct?productId=<c:out value="${product.productId}"></c:out>">
@@ -174,8 +174,7 @@ li a:hover:not(.active) {
 										<c:out value="${product.productPrice}" />
 									</div>
 								</div>
-							</div>
-							<br>
+							</div> <br>
 						</a>
 						<!-- </div> -->
 					</div>
@@ -183,5 +182,12 @@ li a:hover:not(.active) {
 			</div>
 		</div>
 	</c:if>
+
+	<nav aria-label="...">
+		<ul class="pagination">
+			<li class="page-item"><a class="page-link" href="/home?pageno=1">1</a></li>
+			<li class="page-item"><a class="page-link" href="/home?pageno=2">2</a></li>
+		</ul>
+	</nav>
 </body>
 </html>

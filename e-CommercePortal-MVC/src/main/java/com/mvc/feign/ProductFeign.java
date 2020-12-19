@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mvc.model.ProductItem;
 import com.mvc.requestAndResponse.Msg;
@@ -16,7 +17,7 @@ import com.mvc.requestAndResponse.Msg;
 @FeignClient(url = "${product.feign.url}", name = "productfeign")
 public interface ProductFeign {
 	@GetMapping("/productList")
-	public List<ProductItem> getAll(@RequestHeader("Authorization") String token);
+	public List<ProductItem> getAll(@RequestParam int pageno, @RequestHeader("Authorization") String token);
 
 	@GetMapping("/searchProductById/{id}")
 	public ProductItem searchProductById(@RequestHeader("Authorization") String token, @PathVariable("id") int id);
@@ -27,6 +28,6 @@ public interface ProductFeign {
 
 	@PostMapping("/addProductRating/{id}/{rating}")
 	public Msg addProductRating(@RequestHeader("Authorization") String token, @PathVariable("id") int id,
-			@PathVariable("rating") int rating) ;
+			@PathVariable("rating") int rating);
 
 }
