@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.product.client.AuthClient;
@@ -33,9 +34,9 @@ public class ProductController {
 	 * @throws InvalidUser Throws exception if token is invalid
 	 */
 	@GetMapping("/productList")
-	public ResponseEntity<List<ProductItem>> getAll(@RequestHeader("Authorization") String token) throws InvalidUser {
+	public ResponseEntity<List<ProductItem>> getAll(@RequestParam int pageno,@RequestHeader("Authorization") String token) throws InvalidUser {
 		productService.getValidity(token);
-		return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
+		return new ResponseEntity<>(productService.getAll(pageno), HttpStatus.OK);
 	}
 
 	/**

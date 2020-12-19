@@ -47,8 +47,8 @@ public class ProductControllerTest {
 		productList.add(new ProductItem(1, "bag", "bag", 1000, "bag", 5, 4));
 		productList.add(new ProductItem(2, "book", "book", 500, "book", 4, 4));
 		ResponseEntity<List<ProductItem>> response = new ResponseEntity<List<ProductItem>>(productList, HttpStatus.OK);
-		when(productService.getAll()).thenReturn(productList);
-		assertEquals(productController.getAll("token"), response);
+		when(productService.getAll(1)).thenReturn(productList);
+		assertEquals(productController.getAll(1,"token"), response);
 	}
 
 	@Test

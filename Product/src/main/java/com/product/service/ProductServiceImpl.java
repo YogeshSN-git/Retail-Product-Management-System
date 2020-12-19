@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -27,8 +29,10 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	AuthClient authClient;
 
-	public List<ProductItem> getAll() {
-		return productRepository.findAll();
+	public List<ProductItem> getAll(int pageno) {
+		Pageable pageable = PageRequest.of(pageno - 1, 4);
+
+		return productRepository.findAll(pageable).getContent();
 	}
 
 	@Override

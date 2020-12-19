@@ -24,7 +24,7 @@ public interface ProductService {
 	 * 
 	 * @return Product List {@code List<ProductItem>}
 	 */
-	public List<ProductItem> getAll();
+	public List<ProductItem> getAll(int pageno);
 
 	/**
 	 * Fetches {@code ProductItem} from database with id=productId
