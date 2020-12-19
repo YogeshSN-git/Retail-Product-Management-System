@@ -3,6 +3,7 @@ package com.product.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.product.client.AuthClient;
 import com.product.exception.InvalidUser;
@@ -34,8 +39,10 @@ public class ProductServiceImplTest {
 	@Test
 	public void testGetAll() {
 		List<ProductItem> list = new ArrayList<ProductItem>();
-		when(productRepository.findAll()).thenReturn(list);
-		assertEquals(productServiceImpl.getAll(), list);
+		Pageable pageable = PageRequest.of(0, 4);
+		Page<ProductItem> findAll = new PageImpl<>(list);
+		when(productRepository.findAll(pageable)).thenReturn(findAll);
+		productServiceImpl.getAll(1);
 	}
 
 	@Test
@@ -51,60 +58,60 @@ public class ProductServiceImplTest {
 		when(authClient.getValidity("token")).thenReturn(auth);
 		assertThrows(InvalidUser.class, () -> productServiceImpl.getValidity("token"));
 	}
+
 	@Test
-	public void testSearchProductById()
-	{
-		ProductItem product= new ProductItem(1,"abc","abc",1,"abc",1,5);
+	public void testSearchProductById() {
+		ProductItem product = new ProductItem(1, "abc", "abc", 1, "abc", 1, 5);
 		Optional<ProductItem> data = Optional.of(product);
 		when(productRepository.findById(1)).thenReturn(data);
-		assertEquals(productServiceImpl.searchProductById(1,"token"),product);
+		assertEquals(productServiceImpl.searchProductById(1, "token"), product);
 	}
+
 	@Test
-	public void testProductIdNotFoundException()
-	{
-		ProductItem product= new ProductItem(1,"abc","abc",1,"abc",1,5);
+	public void testProductIdNotFoundException() {
+		ProductItem product = new ProductItem(1, "abc", "abc", 1, "abc", 1, 5);
 		Optional<ProductItem> data = Optional.of(product);
 		when(productRepository.findById(1)).thenReturn(data);
-		assertThrows(ProductIdNotFoundException.class,()->productServiceImpl.searchProductById(2,"token"));
+		assertThrows(ProductIdNotFoundException.class, () -> productServiceImpl.searchProductById(2, "token"));
 	}
+
 	@Test
-	public void testSearchProductByName()
-	{
-		ProductItem product= new ProductItem(1,"abc","abc",1,"abc",1,5);
+	public void testSearchProductByName() {
+		ProductItem product = new ProductItem(1, "abc", "abc", 1, "abc", 1, 5);
 		Optional<ProductItem> data = Optional.of(product);
 		when(productRepository.findByProductNameContainingIgnoreCase("name")).thenReturn(data);
-		assertEquals(productServiceImpl.searchProductByName("name","token"),product);
+		assertEquals(productServiceImpl.searchProductByName("name", "token"), product);
 	}
+
 	@Test
-	public void testProductNameNotFoundException()
-	{
-		ProductItem product= new ProductItem(1,"abc","abc",1,"abc",1,5);
+	public void testProductNameNotFoundException() {
+		ProductItem product = new ProductItem(1, "abc", "abc", 1, "abc", 1, 5);
 		Optional<ProductItem> data = Optional.of(product);
 		when(productRepository.findByProductNameContainingIgnoreCase("name")).thenReturn(data);
-		assertThrows(ProductNameNotFoundException.class,()->productServiceImpl.searchProductByName("abc","token"));
+		assertThrows(ProductNameNotFoundException.class, () -> productServiceImpl.searchProductByName("abc", "token"));
 	}
+
 	@Test
-	public void testRatingNotValidException()
-	{
-		assertThrows(RatingNotValidException.class,()->productServiceImpl.addProductRating("token",1,-1));
+	public void testRatingNotValidException() {
+		assertThrows(RatingNotValidException.class, () -> productServiceImpl.addProductRating("token", 1, -1));
 	}
+
 	@Test
-	public void testRatingNotValidException1()
-	{
-		assertThrows(RatingNotValidException.class,()->productServiceImpl.addProductRating("token",1,6));
+	public void testRatingNotValidException1() {
+		assertThrows(RatingNotValidException.class, () -> productServiceImpl.addProductRating("token", 1, 6));
 	}
+
 	@Test
-	public void testProductIdNotFoundException1()
-	{
-		assertThrows(ProductIdNotFoundException.class,()->productServiceImpl.addProductRating("token",-1,1));
+	public void testProductIdNotFoundException1() {
+		assertThrows(ProductIdNotFoundException.class, () -> productServiceImpl.addProductRating("token", -1, 1));
 	}
+
 	@Test
-	public void testAddProductRating()
-	{
+	public void testAddProductRating() {
 		when(productRepository.existsById(1)).thenReturn(true);
 		ProductItem product = new ProductItem();
 		Optional<ProductItem> data = Optional.of(product);
 		when(productRepository.findById(1)).thenReturn(data);
-		productServiceImpl.addProductRating("token",1,1);
+		productServiceImpl.addProductRating("token", 1, 1);
 	}
 }
