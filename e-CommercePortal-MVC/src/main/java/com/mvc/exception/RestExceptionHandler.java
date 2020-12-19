@@ -93,7 +93,7 @@ public class RestExceptionHandler {
 	public ModelAndView handleFeignNotFoundExceptions(FeignException ex) {
 
 		String[] split = ex.getMessage().split("\"message\"")[1].split(",");
-		String errorMessage = split[0].substring(2, split[0].length() - 1);
+		String errorMessage = split[0].substring(2, split[0].length() - 3);
 
 		if (errorMessage.contains("unauthorized user") || errorMessage.contains("No message available")) {
 			ModelAndView model = new ModelAndView("Login");

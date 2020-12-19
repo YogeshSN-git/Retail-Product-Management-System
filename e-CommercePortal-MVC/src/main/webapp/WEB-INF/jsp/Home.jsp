@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +47,64 @@ body {
 	background-color: lightgrey;
 }
 
+#nav-head {
+	color: white;
+	background-color: #4DC889;
+	margin: 0;
+	padding: 0;
+}
+
+.img-fluid {
+	padding: 0px;
+	height: 52px;
+	width: 100px;
+}
+
+.nav-item .nav-link:hover {
+	opacity: 3;
+}
+
+.dropdown .dropbtn {
+	opacity: 0.5;
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: white;
+	padding: 8px;
+	background-color: inherit;
+	font-family: inherit;
+	margin: 0;
+}
+
+.dropbtn:hover {
+	opacity: 1;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #4DC889;
+	min-width: 50px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	float: none;
+	color: white;
+	text-decoration: none;
+	display: block;
+	padding: 10px 10px;
+}
+
+.dropdown-content a:hover {
+	background-color: #14de8d;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
 .product-link {
 	color: black;
 	text-decoration: none;
@@ -59,33 +118,6 @@ body {
 .card:hover {
 	transform: scale(0.99);
 	box-shadow: 0 5px 10px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .06);
-}
-
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	background-color: #4DC889;
-}
-
-li {
-	float: left;
-}
-
-li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-}
-
-li a:hover:not(.active) {
-	background-color: lightgrey;
 }
 
 .active:hover, .link:hover {
@@ -105,8 +137,8 @@ li a:hover:not(.active) {
 	position: relative;
 	left: 10%;
 	float: center;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 .search button {
@@ -118,36 +150,48 @@ li a:hover:not(.active) {
 	font-size: 12px;
 	border: none;
 	cursor: pointer;
+	margin-right: 16px;
 }
 </style>
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><img
-					src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
-					alt="Retail Icon" width="110" height="52"></li>
-				<li><a class="active" href="/home?pageno=1">Home</a></li>
-				<div class="search">
-					<form method="post" modelAttribute="productName"
-						action="searchProduct">
-						<input type="text" placeholder=" Search Product ID or Name"
-							name="productName" required>
-						<button>
-							<i class="fa fa-search" style="font-size: 18px;"> </i>
-						</button>
-					</form>
+	<nav class="navbar navbar-expand-lg justify-content-between"
+		id="nav-head">
+		<span class="navbar-header col-6"> <img class="img-fluid"
+			src="https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172https://tse1.mm.bing.net/th?id=OIP.4MlkDP01Clf_bJ3p420wOQHaD6&pid=Api&P=0&w=324&h=172"
+			alt="Retail Icon" width="110" height="52">
+		</span>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navlinks" aria-controls="links" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<i class="icon-size material-icons">menu</i> 
+		</button>
+		<span class="collapse navbar-collapse col-6" id="navlinks"> <span
+			class="navbar-nav search">
+				<form method="post" modelAttribute="productName"
+					action="searchProduct" class="form-inline">
+					<input id="search-bar" type="text"
+						placeholder=" Search Product ID or Name" name="productName"
+						required class="form-control mr-sm-2">
+					<button class="btn btn-outline-success my-2 my-sm-0"
+						id="search-button">
+						<i class="fa fa-search" style="font-size: 18px;"> </i>
+					</button>
+				</form> <a class="nav-item nav-link text-white" href="/home?pageno=1">Home</a>
+				<a class="nav-item nav-link text-white" href="cart">Cart</a> <a
+				class="nav-item nav-link text-white" href="wishlist">Wishlist</a>
+				<div class="dropdown ">
+					<button class="dropbtn text-white">${name}<i
+							class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content text-white">
+						<a href="logout">Logout</a>
+					</div>
 				</div>
-				<li style="float: right"><a class="link" href="logout">Logout</a></li>
-				<li style="float: right"><a class="link" href="cart">Cart</a></li>
-				<li style="float: right"><a class="link" href="wishlist">Wishlist</a></li>
-				<li style="float: right"><a class="active" href="#">Welcome
-						${name}</a></li>
-			</ul>
-		</nav>
-	</header>
-	<p>${errormsg}</p>
+		</span>
+		</span>
+	</nav>
+
 	<p>
 	<center>${error}</center>
 	</p>
@@ -155,8 +199,7 @@ li a:hover:not(.active) {
 		<div class="container w-100">
 			<div class="row">
 				<c:forEach items="${productList}" var="product">
-					<div class="col-xl-6 mt-3">
-						<!-- <div class="card-deck"> -->
+					<div class="col-xl-6 col-md-6">
 						<a class="product-link"
 							href="/showProduct?productId=<c:out value="${product.productId}"></c:out>">
 							<div class="card  bg-light mb-3 border-dark" style="margin: 1%">
@@ -176,15 +219,17 @@ li a:hover:not(.active) {
 								</div>
 							</div> <br>
 						</a>
-						<!-- </div> -->
 					</div>
 				</c:forEach>
 			</div>
 		</div>
 	</c:if>
 
-	<nav aria-label="...">
-		<ul class="pagination">
+
+	<nav
+		class="<c:if test="${fn:length(productList)<3 }">fixed</c:if>-bottom" style="background-color:#4DC889 ">
+
+		<ul class="pagination d-flex justify-content-center">
 			<li class="page-item"><a class="page-link" href="/home?pageno=1">1</a></li>
 			<li class="page-item"><a class="page-link" href="/home?pageno=2">2</a></li>
 		</ul>

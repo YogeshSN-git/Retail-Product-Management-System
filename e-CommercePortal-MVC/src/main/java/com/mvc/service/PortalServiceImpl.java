@@ -46,6 +46,7 @@ public class PortalServiceImpl implements PortalService {
 			userToken = authClient.login(userData);
 		} catch (Exception e) {
 			ModelAndView model = new ModelAndView("Login");
+			model.addObject("userData", userData);
 			model.addObject("errormsg", "Incorrect Username or Password");
 			return model;
 		}
@@ -89,7 +90,6 @@ public class PortalServiceImpl implements PortalService {
 	public ModelAndView getProductById(int productid, HttpServletRequest request) {
 		String token = (String) request.getSession().getAttribute("token");
 
-		log.info("searchProduct By Id");
 		ProductItem productItem = productClient.searchProductById(token, productid);
 
 		ModelAndView modelView = new ModelAndView("productpage");
@@ -109,7 +109,6 @@ public class PortalServiceImpl implements PortalService {
 			throw new NoResultException("Your cart is empty");
 		}
 
-		log.info("show cart details");
 		Cart cartList = cart.get();
 
 		List<ProductItem> productList = cartList.getProductList();
