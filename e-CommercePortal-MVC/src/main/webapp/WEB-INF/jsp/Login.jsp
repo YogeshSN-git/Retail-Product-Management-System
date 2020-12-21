@@ -8,9 +8,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>E-Commerce portal Login</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
 <style>
-body {
+/* body {
 	background-image:
 		url("http://redpithemes.com/Documentation/assets/img/page_bg/page_bg_blur02.jpg");
 	background-color: #cccccc;
@@ -108,12 +135,90 @@ body {
 	font-weight: 900px;
 	font-size: 15px;
 	line-height: 21px;
+} */
+body{
+	justify-content: center;
+	background-color: #cccccc;
+	background-image: url("http://redpithemes.com/Documentation/assets/img/page_bg/page_bg_blur02.jpg");
 }
+.container{
+	border-radius: 10px;
+	background-color: #4DC889;
+	margin-top: 150px;
+	padding-top: 30px;
+	width: 338px;
+}
+.login-div{
+	color: white;
+	background-color: #4DC889;
+}
+.form-div{
+	margin-top: -8px;
+	background-color: white;
+	margin-left: -15px;
+	margin-right: -15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 10px;
+}
+.form-control{
+	background: lightgrey;
+	border-radius: 10px;
+	margin: 20px;
+	width: 300px;
+	justify-content: center;
+	padding: 15px 15px;
+	font-family: open Sans;
+	
+}
+#log-user{
+	/* margin-top : 100px; */
+}
+.lock {
+	width: 30px;
+	height: 30px;
+	
+}
+#button{
+	background-color: #4DC889;
+	border: none;
+	width: 100px;
+	margin-left: 110px;
+}
+.error_msg {
+	color: red;
+	margin-left: -65px;
+}
+
 </style>
 </head>
 
-<body>
-	<br />
+<body class="text-center">
+	<div class="container ">
+	<div class="login-div">
+	<h4>LOGIN
+	<img src="https://www.materialui.co/materialIcons/action/lock_grey_192x192.png"
+				alt="lock" class="lock" />
+	</h4></div>
+	<div class="form-div">
+		<form name="loginform" method="post" action="authenticate" >
+			<div class="form-group" id="log-user">
+				<!-- <label for="email">Email address</label> --> <input type="text"
+					class="form-control" aria-describedby="emailHelp"
+					placeholder="User Name" name="userid" required>
+			</div>
+			<div class="form-group">
+				<!-- <label for="password">Password</label> --> <input type="password"
+					class="form-control" placeholder="Password" name="upassword"
+					required>
+			</div>
+			<div class="error_msg">${errormsg}</div>
+			<button type="submit" class="btn btn-primary btn-block" id="button" name="login"
+				value="Login">Login</button>
+		</form>
+	</div>
+	</div>
+	<%-- <br />
 	<br />
 
 	<div class="login-card">
@@ -159,6 +264,6 @@ body {
 			</form>
 		</div>
 
-	</div>
+	</div> --%>
 </body>
-</html>
+</html> 

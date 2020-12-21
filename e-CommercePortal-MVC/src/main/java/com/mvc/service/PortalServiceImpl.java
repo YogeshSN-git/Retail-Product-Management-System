@@ -2,6 +2,7 @@ package com.mvc.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ public class PortalServiceImpl implements PortalService {
 			userToken = authClient.login(userData);
 		} catch (Exception e) {
 			ModelAndView model = new ModelAndView("Login");
+			model.addObject("userData", userData);
 			model.addObject("errormsg", "Incorrect Username or Password");
 			return model;
 		}
@@ -89,7 +91,6 @@ public class PortalServiceImpl implements PortalService {
 	public ModelAndView getProductById(int productid, HttpServletRequest request) {
 		String token = (String) request.getSession().getAttribute("token");
 
-		log.info("searchProduct By Id");
 		ProductItem productItem = productClient.searchProductById(token, productid);
 
 		ModelAndView modelView = new ModelAndView("productpage");
@@ -109,10 +110,11 @@ public class PortalServiceImpl implements PortalService {
 			throw new NoResultException("Your cart is empty");
 		}
 
-		log.info("show cart details");
 		Cart cartList = cart.get();
 
 		List<ProductItem> productList = cartList.getProductList();
+
+		Integer cartTotal = productList.stream().collect(Collectors.summingInt(ProductItem::getProductPrice));
 
 		ModelAndView model = new ModelAndView("Cart");
 
@@ -120,6 +122,7 @@ public class PortalServiceImpl implements PortalService {
 
 		model.addObject("cartList", cartList);
 		model.addObject("productList", productList);
+		model.addObject("cartTotal", cartTotal);
 		return model;
 
 	}

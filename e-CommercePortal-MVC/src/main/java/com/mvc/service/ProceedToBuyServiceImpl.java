@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,7 +18,6 @@ import com.mvc.feign.AuthFeign;
 import com.mvc.feign.ProceedToBuyFeign;
 import com.mvc.feign.ProductFeign;
 import com.mvc.feign.VendorFeign;
-import com.mvc.model.Cart;
 import com.mvc.model.ProductItem;
 import com.mvc.requestAndResponse.CartRequest;
 
@@ -73,17 +71,12 @@ public class ProceedToBuyServiceImpl implements ProceedToBuyService {
 		c.add(Calendar.DATE, 7);
 		Date date = c.getTime();
 
-		Cart cart = proceedToBuyFeign.addProductToCart(token, customerid, cartRequest.getProductId(),
-				cartRequest.getZipcode(), dateFormat.format(date), cartRequest.getQuantity());
+		proceedToBuyFeign.addProductToCart(token, customerid, cartRequest.getProductId(), cartRequest.getZipcode(),
+				dateFormat.format(date), cartRequest.getQuantity());
 
 		productFeign.addProductRating(token, cartRequest.getProductId(), cartRequest.getRating());
 
-		List<ProductItem> productList = cart.getProductList();
-
-		ModelAndView modelView = new ModelAndView("Cart");
-		modelView.addObject("msg", "Your cart List");
-		modelView.addObject("cartList", cart);
-		modelView.addObject("productList", productList);
+		ModelAndView modelView = new ModelAndView("redirect:cart");
 
 		return modelView;
 	}
