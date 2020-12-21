@@ -224,7 +224,7 @@ body {
 							<c:out value="${wishList.dateAddedtoWishlist }" />
 							<br>
 							<p id="price">
-								Price:
+								Price: ₹&nbsp;
 								<c:out value="${product.productPrice }" />
 							</p>
 						</div>

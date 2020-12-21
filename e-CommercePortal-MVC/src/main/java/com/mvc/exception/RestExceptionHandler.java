@@ -48,12 +48,11 @@ public class RestExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(FeignException.BadRequest.class)
 	public ModelAndView handleFeignBadRequestExceptions(FeignException ex) {
-
 		String[] split = ex.getMessage().split("message")[1].split(",");
 
 		String errorMessage = split[0].substring(3, split[0].length() - 1);
 
-		if (errorMessage.contains("Authorisation required\"}")
+		if (errorMessage.contains("Authorisation required\"}") || errorMessage.contains("Service is down\"}")
 				|| errorMessage.contains("Unauthorized request. Login again...")) {
 			ModelAndView model = new ModelAndView("Login");
 			model.addObject("errormsg", "Session Expired...");

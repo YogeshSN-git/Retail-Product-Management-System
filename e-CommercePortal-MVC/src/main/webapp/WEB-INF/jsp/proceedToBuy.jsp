@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -191,7 +191,7 @@ body {
 				<div class="card-body">
 					<h5 class="card-title">${productItem.productName }</h5>
 					<p class="card-text">Description:&nbsp;${productItem.description }</p>
-					<p class="card-text">Price:&nbsp;${productItem.productPrice }</p>
+					<p class="card-text">Price:&nbsp;₹&nbsp;${productItem.productPrice }</p>
 					<p class="card-text">Left in Stock:&nbsp;${stock }</p>
 				</div>
 
@@ -233,8 +233,7 @@ body {
 			</div>
 		</div>
 	</div>
-	<!-- </div> -->
-
+	
 
 
 

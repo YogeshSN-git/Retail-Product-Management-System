@@ -221,10 +221,11 @@ body {
 							Description:
 							<c:out value="${product.description }" />
 							<br> Expected Delivery Date:
-							<c:out value="${cartList.deliveryDate }" />
+							<fmt:formatDate value="${cartList.deliveryDate }"
+								pattern="dd MMM yyyy EEE" />
 							<br>
 							<p id="price">
-								Price:
+								Price: ₹
 								<c:out value="${product.productPrice }" />
 							</p>
 						</div>
@@ -236,9 +237,11 @@ body {
 
 
 
-
-
-
+	<c:if test="${msg=='Your cart List' }">
+		<h2 class="mt-5 mb-5">
+			<center>Total: ₹ ${cartTotal }</center>
+		</h2>
+	</c:if>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

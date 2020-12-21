@@ -2,6 +2,7 @@ package com.mvc.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
@@ -113,12 +114,15 @@ public class PortalServiceImpl implements PortalService {
 
 		List<ProductItem> productList = cartList.getProductList();
 
+		Integer cartTotal = productList.stream().collect(Collectors.summingInt(ProductItem::getProductPrice));
+
 		ModelAndView model = new ModelAndView("Cart");
 
 		model.addObject("msg", "Your cart List");
 
 		model.addObject("cartList", cartList);
 		model.addObject("productList", productList);
+		model.addObject("cartTotal", cartTotal);
 		return model;
 
 	}

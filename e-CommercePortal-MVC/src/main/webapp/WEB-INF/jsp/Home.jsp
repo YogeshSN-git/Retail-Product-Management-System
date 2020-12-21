@@ -219,7 +219,7 @@ body {
 									</h5>
 									<div class="card-text">
 										<c:out value="${product.description}" />
-										<br>
+										<br> ₹&nbsp;
 										<c:out value="${product.productPrice}" />
 									</div>
 								</div>

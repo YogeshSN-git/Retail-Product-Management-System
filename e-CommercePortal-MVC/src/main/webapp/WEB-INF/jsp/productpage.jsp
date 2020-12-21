@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <link rel="stylesheet" type="text/css" href="style.css">
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"
 	rel="stylesheet" type="text/css" />
@@ -30,7 +31,7 @@
 
 <style type="text/css">
 .material-icons {
-	vertical-align: middle;
+	vertical-align: top;
 	font-size: 15px;
 }
 
@@ -190,11 +191,13 @@ body {
 			<img src="${productItem.imageName }" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">${productItem.productName }
-					<span class="badge badge-success float-right">${productItem.rating}<i
-						class="icon-size material-icons">star_rate</i></span>
+					<span class="badge badge-success float-right">${productItem.rating}
+						<i class="icon-size material-icons">star_rate</i>
+					</span>
 				</h5>
 				<p class="card-text">Description:&nbsp;${productItem.description }</p>
-				<p class="card-text">Price:&nbsp;${productItem.productPrice }</p>
+				<p class="card-text">Price:&nbsp;
+					₹&nbsp;${productItem.productPrice }</p>
 				<p class="card-text">Left in Stock:&nbsp;${stock }</p>
 
 				<c:if test="${stock!=0}">
