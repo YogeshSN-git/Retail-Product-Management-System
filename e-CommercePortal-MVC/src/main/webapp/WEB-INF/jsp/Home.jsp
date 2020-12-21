@@ -47,6 +47,11 @@ body {
 	background-color: lightgrey;
 }
 
+.material-icons {
+	vertical-align: top;
+	font-size: 15px;
+}
+
 #nav-head {
 	color: white;
 	background-color: #4DC889;
@@ -164,7 +169,7 @@ body {
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navlinks" aria-controls="links" aria-expanded="false"
 			aria-label="Toggle navigation">
-			<i class="icon-size material-icons">menu</i> 
+			<i class="icon-size material-icons">menu</i>
 		</button>
 		<span class="collapse navbar-collapse col-6" id="navlinks"> <span
 			class="navbar-nav search">
@@ -208,8 +213,9 @@ body {
 								<div class="card-body">
 									<h5 class="card-title">
 										<c:out value="${product.productName}" />
-										<span class="badge badge-danger float-right"><c:out
-												value="${product.rating}" /></span>
+										<span class="badge badge-success float-right">${product.rating}
+											<i class="icon-size material-icons">star_rate</i>
+										</span>
 									</h5>
 									<div class="card-text">
 										<c:out value="${product.description}" />
@@ -227,7 +233,8 @@ body {
 
 
 	<nav
-		class="<c:if test="${fn:length(productList)<3 }">fixed</c:if>-bottom" style="background-color:#4DC889 ">
+		class="<c:if test="${fn:length(productList)<3 }">fixed</c:if>-bottom"
+		style="background-color: #4DC889">
 
 		<ul class="pagination d-flex justify-content-center">
 			<li class="page-item"><a class="page-link" href="/home?pageno=1">1</a></li>
