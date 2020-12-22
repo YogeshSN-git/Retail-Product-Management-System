@@ -1,4 +1,4 @@
-# Authorization Microservice
+# e-commercePortal-MVC Application
 
 ## Requirements
 For building and running the application you need,
@@ -7,5 +7,7 @@ For building and running the application you need,
 ## Steps to run
 * Build the project using mvn clean install
 * Run using mvn spring-boot:run
-* The web application is accessible via localhost:8080/authapp
-* Use username and password as 'admin' to login
+* The web application is accessible via localhost:9000/login
+* Use username and password as 'admin' to login to portal
+
+
